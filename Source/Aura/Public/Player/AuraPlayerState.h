@@ -23,7 +23,7 @@ public:
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
 protected:
 
-	// レッスン22では敵の設定だけ狩猟していてプレイヤー側はnullptr
+	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
