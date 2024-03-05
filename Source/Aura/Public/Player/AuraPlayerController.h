@@ -26,6 +26,7 @@ protected:
 
 private:
 
+	// 移動関係
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
 
@@ -34,6 +35,7 @@ private:
 
 	void Move(const FInputActionValue& InputActionValue);
 
+	// マウス処理
 	void CursorTrace();
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
