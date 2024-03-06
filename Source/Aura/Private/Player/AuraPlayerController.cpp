@@ -21,10 +21,11 @@ void AAuraPlayerController::BeginPlay()
 
 	check(AuraContext);
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-
-	// 引数2 優先度
-	Subsystem->AddMappingContext(AuraContext, 0);
+	if (Subsystem)
+	{
+		// 引数2 優先度
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
 
 	// マウス設定
 	bShowMouseCursor = true;
