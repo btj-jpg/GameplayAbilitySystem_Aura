@@ -48,6 +48,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
+
+	// 属性値の初期値をブロードキャストする
+	virtual void BroadcastInitialValues();
+
+	//　
+	virtual void BindCallbacksToDependencies();
 	
 protected:
 

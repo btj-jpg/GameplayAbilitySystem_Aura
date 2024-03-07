@@ -7,7 +7,7 @@
 #include "AuraUserWidget.generated.h"
 
 /**
- * 
+ * WBP_Overlayの親
  */
 UCLASS()
 class AURA_API UAuraUserWidget : public UUserWidget
