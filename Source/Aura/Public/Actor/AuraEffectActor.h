@@ -1,4 +1,6 @@
 // Copyright Druid Mechanics
+// 回復ポーションなどのアイテムのC++
+// 元アクターコンポーネント
 
 #pragma once
 
@@ -6,7 +8,7 @@
 #include "GameFramework/Actor.h"
 #include "AuraEffectActor.generated.h"
 
-class USphereComponent;
+class UGameplayEffect;
 
 UCLASS()
 class AURA_API AAuraEffectActor : public AActor
@@ -17,33 +19,17 @@ public:
 
 	AAuraEffectActor();
 
-	UFUNCTION()
-	virtual void OnOverlap(
-	UPrimitiveComponent* OverlappedComponent,
-	AActor* OtherActor,
-	UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex,
-	bool bFromSweep,
-	const FHitResult& SweepResult
-	);
-
-	UFUNCTION()
-	virtual void EndOverlap(
-	UPrimitiveComponent* OverlappedComponent,
-	AActor* OtherActor,
-	UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex);
-
 protected:
 
 	virtual void BeginPlay() override;
 
-private:
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> Mesh;
-
+	// 効果の対象となるアクターを決定する
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GamePlayEffectClass);
+	
+	// ブループリント側で設置するクラス
+	// 応用
+	UPROPERTY(EditAnywhere, Category="Applied Effect")
+	TSubclassOf<UGameplayEffect> InstanceGamePlayEffectClass;
+	
 };

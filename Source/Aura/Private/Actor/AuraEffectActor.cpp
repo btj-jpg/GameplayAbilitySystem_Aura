@@ -3,50 +3,44 @@
 
 #include "Actor/AuraEffectActor.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
-#include "AbilitySystemInterface.h"
-#include "AbilitySystem/AuraAttributeSet.h"
-#include "Components/SphereComponent.h"
 
 
 AAuraEffectActor::AAuraEffectActor()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
-	SetRootComponent(Mesh);
-
-	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
-	Sphere->SetupAttachment(GetRootComponent());
-	
-
-}
-
-void AAuraEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(OtherActor))
-	{
-		const UAuraAttributeSet* AuraAttributeSet =
-		Cast<UAuraAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UAuraAttributeSet::StaticClass()));
-		UAuraAttributeSet* MutableAuraAttributeSet = const_cast<UAuraAttributeSet*>(AuraAttributeSet);
-		MutableAuraAttributeSet->SetHealth(AuraAttributeSet->GetHealth() + 25.f);
-		Destroy();
-	}
-}
-
-void AAuraEffectActor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	
+	PrimaryActorTick.bCanEverTick = false;
+	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
 }
 
 void AAuraEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
-	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraEffectActor::OnOverlap);
-	Sphere->OnComponentEndOverlap.AddDynamic(this, &AAuraEffectActor::EndOverlap);
+void AAuraEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GamePlayEffectClass)
+{
+	// アクターにアビリティシステムがあるか確かめる
+	// なかったら nullptrを返す
+	UAbilitySystemComponent* TargetACS = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+	if (TargetACS == nullptr) return;
+	check(GamePlayEffectClass);
+	
+	// ゲームプレイエフェクトを作成するための様々な情報のデータ構造体
+	// 炎属性、ソースオブジェクトなどあらゆる情報を持つ
+	FGameplayEffectContextHandle EffectContextHandle = TargetACS->MakeEffectContext();
+
+	// 内部のメンバ関数SourceObjectに対象に対するweakptrを作成する
+	// weakptr 中身が見れるだけ
+	EffectContextHandle.AddSourceObject(this);
+
+	// ゲームプレイエフェクトのラッパー構造体
+	// GamePlayEffectClass Blueprintで作成できる計算などの使用
+	FGameplayEffectSpecHandle EffectSpecHandle = TargetACS->MakeOutgoingSpec(GamePlayEffectClass, 1.0f, EffectContextHandle);
+	TargetACS->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+	// ターゲットのACSがわかれば以下のもできる
+	// TargetACS->ApplyGameplayEffectSpecToTarget(*EffectSpecHandle.Data.Get(), TargetACS);
 }
 
 
