@@ -36,13 +36,23 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributes->GetMaxManaAttribute())
 	.AddUObject(this, &UOverlayWidgetController::MaxManaChanged);
 
+	// ラムダ式
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[](const FGameplayTagContainer& AssetTags)
+		[this](const FGameplayTagContainer& AssetTags)
 		{
 			for (const FGameplayTag& Tag : AssetTags)
 			{
-				const FString Msg = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
-				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Green, Msg);
+
+				// A.1 MatchesTag("A") true A MatchesTag("A.1") false
+
+				// 指定したいタグ名
+				FGameplayTag MessageTag =  FGameplayTag::RequestGameplayTag(FName("Message"));
+				if (Tag.MatchesTag(MessageTag))
+				{
+					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+					// Broadcast 生ポインターを渡さないといけない
+					MessageWidgetRowDelegate.Broadcast(*Row);
+				}
 			}
 		}
 	);
