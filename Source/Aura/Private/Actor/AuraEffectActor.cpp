@@ -85,6 +85,7 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 	}
 }
 
+// 実際にエフェクトを適応する処理
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GamePlayEffectClass)
 {
 	// アクターにアビリティシステムがあるか確かめる
@@ -95,6 +96,12 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	
 	// ゲームプレイエフェクトを作成するための様々な情報のデータ構造体
 	// 炎属性、ソースオブジェクトなどあらゆる情報を持つ
+	/*
+	 * 実行されるゲームプレイエフェクトのタイプや識別子。
+	ゲームプレイエフェクトの発生元や発生先となるアクター。
+	ゲームプレイエフェクトが適用されるターゲット。
+	その他の実行時の条件やコンテキスト情報。など
+	*/
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 
 	// 内部のメンバ関数SourceObjectに対象に対するweakptrを作成する
@@ -102,7 +109,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	EffectContextHandle.AddSourceObject(this);
 
 	// ゲームプレイエフェクトのラッパー構造体
-	// GamePlayEffectClass Blueprintで作成できる計算などの使用
+	// 引数1 GamePlayEffectClass Blueprintで作成できる計算などの使用
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GamePlayEffectClass, ActorLevel, EffectContextHandle);
 	FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
