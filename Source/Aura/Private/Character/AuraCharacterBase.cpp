@@ -1,7 +1,10 @@
 // Copyright Druid Mechanics
 
-
 #include "Character/AuraCharacterBase.h"
+
+#include "AbilitySystemComponent.h"
+#include "GameplayEffect.h"
+#include "GameplayEffectTypes.h"
 
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -28,6 +31,18 @@ void AAuraCharacterBase::BeginPlay()
 
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
+}
+
+void AAuraCharacterBase::InitializePrimaryAttributes() const
+{
+	IsValidChecked(GetAbilitySystemComponent());
+	check(DefaultPrimaryAttributes);
+	
+	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.0f, ContextHandle);
+
+	// 重要 *SpecHandle.Data.Get()
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
 
 
