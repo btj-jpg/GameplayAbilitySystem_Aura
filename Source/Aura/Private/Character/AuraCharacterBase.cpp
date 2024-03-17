@@ -33,12 +33,16 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
 
+// エフェクトをセットする
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GamePlayEffectClass, float Level) const
 {
 	IsValidChecked(GetAbilitySystemComponent());
 	check(GamePlayEffectClass);
 	
-	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+
+	// ソースオブジェクトの設定
+	ContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GamePlayEffectClass, Level, ContextHandle);
 
 	// 重要 *SpecHandle.Data.Get()
