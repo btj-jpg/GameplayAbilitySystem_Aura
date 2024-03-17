@@ -40,6 +40,13 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+int32 AAuraCharacter::GetPlayerLevel()
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	//GetPlayerState -- ポーンがプレイヤーに所有されている場合は、そのプレイヤーの状態を返します。
@@ -60,6 +67,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 	}
 
 	// ステータス初期化
-	InitializePrimaryAttributes();
+	InitializeDefaultAttributes();
 	
 }
