@@ -50,9 +50,9 @@ public:
 	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
 
 	// 属性値の初期値をブロードキャストする
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues();
-
-	//　
+	
 	virtual void BindCallbacksToDependencies();
 	
 protected:
