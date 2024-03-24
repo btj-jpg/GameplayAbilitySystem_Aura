@@ -30,7 +30,7 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	InitAbilityActorInfo();
-
+	AddCharacterAbilities();
 }
 
 // -　クライアント用　アビリティアクター情報が初期化

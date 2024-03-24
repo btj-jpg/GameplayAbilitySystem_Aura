@@ -27,7 +27,7 @@ public:
 	FEffectAssetTags EffectAssetTags;
 	// デリゲート呼び出し EffectAssetTags.Broadcast(TagContainer);
 	
-
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
 protected:
 
 	// エフェクトが起動するとデリゲートする
