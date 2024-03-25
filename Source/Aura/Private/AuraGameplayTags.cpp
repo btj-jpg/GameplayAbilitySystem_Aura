@@ -97,5 +97,42 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FName("Attributes.Secondary.MaxMana"),
 			FString("Maximum amount of Mana obtainable")
 			);
+
+	// インプットタグ
+	GameplayTags.InputTag_LMB =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("InputTag.LMB"),
+			FString("Left Mouse Button")
+			);
+
+	GameplayTags.InputTag_RMB =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("InputTag.RMB"),
+			FString("Right Mouse Button")
+			);
+
+	GameplayTags.InputTag_1 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("InputTag.1"),
+			FString("1Key")
+			);
+
+	GameplayTags.InputTag_2 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("InputTag.2"),
+			FString("2Key")
+			);
+
+	GameplayTags.InputTag_3 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("InputTag.3"),
+			FString("3Key")
+			);
+
+	GameplayTags.InputTag_4 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("InputTag.4"),
+			FString("4Key")
+			);
 }
 
