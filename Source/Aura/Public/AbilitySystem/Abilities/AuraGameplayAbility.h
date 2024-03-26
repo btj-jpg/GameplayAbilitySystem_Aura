@@ -13,5 +13,11 @@ UCLASS()
 class AURA_API UAuraGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
+
+public:
+
+	// どのボタンを押したらアクティブ化するかを決めるタグ
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	FGameplayTag StartUpInputTag;
 	
 };

@@ -28,6 +28,11 @@ public:
 	// デリゲート呼び出し EffectAssetTags.Broadcast(TagContainer);
 	
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+
+	
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	void AbilityInputTagReleased(const FGameplayTag& InputTag);
+	
 protected:
 
 	// エフェクトが起動するとデリゲートする
