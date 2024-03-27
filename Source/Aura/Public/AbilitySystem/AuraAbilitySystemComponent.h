@@ -35,8 +35,11 @@ public:
 	
 protected:
 
+	
 	// エフェクトが起動するとデリゲートする
-	void EffectApplied(
+	// クライアントRPC サーバーでのみトリガーする関数の結果をクライアント側でも受け取る
+	UFUNCTION(Client, Reliable)
+	void ClientEffectApplied(
 		UAbilitySystemComponent* AbilitySystemComponent,
 		const FGameplayEffectSpec& EffectSpec,
 		FActiveGameplayEffectHandle ActiveEffectHandle);

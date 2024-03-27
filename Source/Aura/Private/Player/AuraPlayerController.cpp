@@ -7,6 +7,8 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
@@ -64,38 +66,46 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
+	AutoRun();
 }
+
+void AAuraPlayerController::AutoRun()
+{
+	if (!bAutoRunning) return;
+	if (APawn* ControlledPawn = GetPawn())
+	{
+		// FindLocationClosestToWorldLocation　指定位置に最も近いスプラインポイントを返す
+		const FVector LocationOnSpline =
+			Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(),ESplineCoordinateSpace::World);
+
+		// FindLocationClosestToWorldLocation　指定位置に最も近いスプラインポイントのベクトルを返す
+		const FVector Direction =
+			Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
+
+		ControlledPawn->AddMovementInput(Direction);
+
+		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
+		if (DistanceToDestination <= AutoRunAcceptanceRadius)
+		{
+			bAutoRunning = false;
+		}
+		
+	}
+}
+
 
 void AAuraPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 
 	LastActor = ThisActor;
 	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
 
-	if (LastActor == nullptr)
+	if (LastActor != ThisActor)
 	{
-		if (ThisActor != nullptr)
-		{
-			ThisActor->HighLightActor();
-		}
-	}
-	else
-	{
-		if (ThisActor == nullptr)
-		{
-			LastActor->UnHighLightActor();
-		}
-		else
-		{
-			if (LastActor != ThisActor)
-			{
-				LastActor->UnHighLightActor();
-				ThisActor->HighLightActor();
-			}
-		}
+		if (LastActor) LastActor->UnHighLightActor();
+		if (ThisActor) ThisActor->HighLightActor();
 	}
 }
 
@@ -115,8 +125,48 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	if (GetASC() == nullptr) return;
-	GetASC()->AbilityInputTagReleased(InputTag);
+	// もしボタン押している間そのボタンに割り当てられているタグが左マウスボタン以外なら
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	{
+		if (GetASC())GetASC()->AbilityInputTagReleased(InputTag);
+		return;
+	}
+
+	if (bTargeting)
+	{
+		if (GetASC())GetASC()->AbilityInputTagReleased(InputTag);
+	}
+	else
+	{
+		// ちょっとしか押してない場合、その地点に移動
+		APawn* ControlledPawn = GetPawn<APawn>();
+		if (FollowTime <= ShortPressThreshold && ControlledPawn)
+		{
+			
+			//目標地点までのパスを作成
+			if (
+				UNavigationPath* NavPath =
+				UNavigationSystemV1::FindPathToLocationSynchronously(
+					this,
+					ControlledPawn->GetActorLocation(),
+					CachedDestination))
+			{
+				Spline->ClearSplinePoints();
+				// NavPath->PathPoints = TArray
+				// PointLoc = FVector
+				for (const FVector& PointLoc : NavPath->PathPoints) {
+					//ESplineCoordinateSpace 標空間のタイプ World or Local
+					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+				}
+
+				// 最後に生成されたパスの位置まで移動するようにする
+				CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
+				bAutoRunning = true;
+			}
+		}
+		FollowTime = 0.f;
+		bTargeting = false;
+	}
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
@@ -124,10 +174,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	// もしボタン押している間そのボタンに割り当てられているタグが左マウスボタン以外なら
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
+		if (GetASC())GetASC()->AbilityInputTagHeld(InputTag);
 		return;
 	}
 
@@ -135,26 +182,18 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	if (bTargeting)
 	{
 		// マウスの下に敵がいた場合
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
+		if (GetASC())GetASC()->AbilityInputTagHeld(InputTag);
 	}
 	else
 	{
+		// マウスの位置に移動
 		FollowTime += GetWorld()->GetDeltaSeconds();
 
-		FHitResult Hit;
-		if (
-			GetHitResultUnderCursor(
-			ECC_Visibility,
-			false,
-			Hit)
-			)
-		{
-			CachedDestination = Hit.ImpactPoint;
-		}
+		// マウス位置を取得
+		if (CursorHit.bBlockingHit)CachedDestination = CursorHit.ImpactPoint;
 
+
+		// マウス位置へのベクトル移動
 		if (APawn* ControlledPawn = GetPawn<APawn>())
 		{
 			const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
@@ -172,7 +211,6 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
 	}
 	return AuraAbilitySystemComponent;
 }
-
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {

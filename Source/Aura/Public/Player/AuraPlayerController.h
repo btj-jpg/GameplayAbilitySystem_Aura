@@ -43,6 +43,7 @@ private:
 	void CursorTrace();
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+	FHitResult CursorHit;
 
 	// マウス、１，２，３，４で実行する関数
 	void AbilityInputTagPressed(FGameplayTag InputTag);
@@ -70,4 +71,6 @@ private:
 	// 目的地までの移動をスムーズにするスプライン
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
+
+	void AutoRun();
 };
