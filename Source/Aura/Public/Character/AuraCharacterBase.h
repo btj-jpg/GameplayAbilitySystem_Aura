@@ -37,6 +37,11 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	UPROPERTY(EditAnywhere, Category= "Combat")
+	FName WeaponTipSocketName;
+
+	virtual FVector GetCombatSocketLocation() override;
+
 	// アビリティシステムコンポーネントのポインター
 	// レッスン22では敵の設定だけ狩猟していてプレイヤー側はnullptr
 	UPROPERTY()

@@ -7,7 +7,7 @@
 #include "AuraGameplayAbility.generated.h"
 
 /**
- * 
+ * k2 はkismet2 の略でBPとして考えてOK
  */
 UCLASS()
 class AURA_API UAuraGameplayAbility : public UGameplayAbility
