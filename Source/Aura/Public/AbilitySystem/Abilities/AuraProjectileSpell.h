@@ -14,7 +14,7 @@ UCLASS()
 class AURA_API UAuraProjectileSpell : public UAuraGameplayAbility
 {
 	GENERATED_BODY()
-
+	
 protected:
 
 	// ハンドルはポインターのようなもの
@@ -25,6 +25,10 @@ protected:
 		const FGameplayEventData* TriggerEventData)
 	override;
 
+	UFUNCTION(BlueprintCallable, Category="Projectile")
+	void SpawnProjectile();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+	
 };

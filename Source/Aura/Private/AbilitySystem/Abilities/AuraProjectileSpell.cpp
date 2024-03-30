@@ -5,7 +5,6 @@
 
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 void UAuraProjectileSpell::ActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,
@@ -14,9 +13,12 @@ void UAuraProjectileSpell::ActivateAbility(
 	const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+}
 
+void UAuraProjectileSpell::SpawnProjectile()
+{
 	// サーバーで呼び出されてるか
-	const bool bIsServer = HasAuthority(&ActivationInfo);
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
 
 	// この能力を実行している物理的なアクター GetAvatarActorFromActorInfo()
