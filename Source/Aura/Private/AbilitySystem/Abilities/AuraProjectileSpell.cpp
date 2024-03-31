@@ -18,7 +18,11 @@ void UAuraProjectileSpell::SpawnProjectile()
 {
 	// サーバーで呼び出されてるか
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	
 	if (!bIsServer) return;
+
+	//GetAvatarActorFromActorInfo() BP_AuraCharacter
+	//GetOwningActorFromActorInfo() BP_AuraPlayerState このアビリティを所有するBP
 
 	// この能力を実行している物理的なアクター GetAvatarActorFromActorInfo()
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
