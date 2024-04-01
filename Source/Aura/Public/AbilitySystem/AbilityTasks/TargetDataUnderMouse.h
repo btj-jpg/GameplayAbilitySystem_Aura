@@ -8,7 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMouseTargetDataSignature, const FGameplayAbilityTargetDataHandle&, DataHandle);
 /**
- * 
+ * ブループリント内の関数として生成される
  */
 UCLASS()
 class AURA_API UTargetDataUnderMouse : public UAbilityTask
@@ -39,5 +39,8 @@ private:
 	virtual void Activate() override;
 	
 	void SendMouseCursorData();
+
+	//DataHandle, FGameplayTag, を引数として受け取る
+	void OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag ActivationTag);
 	
 };
