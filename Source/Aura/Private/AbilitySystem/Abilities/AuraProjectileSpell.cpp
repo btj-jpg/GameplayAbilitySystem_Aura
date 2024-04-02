@@ -14,7 +14,7 @@ void UAuraProjectileSpell::ActivateAbility(
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UAuraProjectileSpell::SpawnProjectile()
+void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
 {
 	// サーバーで呼び出されてるか
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
@@ -26,11 +26,18 @@ void UAuraProjectileSpell::SpawnProjectile()
 
 	// この能力を実行している物理的なアクター GetAvatarActorFromActorInfo()
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
+	
 	if (CombatInterface)
 	{
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
+		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
+		Rotation.Pitch = 0.f;
+		
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
+
+		//Quaternion 軸と方向で3次元を表す
+		SpawnTransform.SetRotation(Rotation.Quaternion());
 		
 		//UWorld::SpawnActorDeferred指定されたクラスを生成し、クラス T ポインタを返し、ワールド トランスフォームを強制的に設定します
 		//この能力を所有するアクター GetOwningActorFromActorInfo()

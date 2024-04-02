@@ -53,6 +53,8 @@ void AAuraPlayerController::SetupInputComponent()
 	
 	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 	AuraInputComponent->BindAbilityAction(
 		InputConfig,
 		this,
@@ -132,11 +134,8 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting)
-	{
-		if (GetASC())GetASC()->AbilityInputTagReleased(InputTag);
-	}
-	else
+	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+	if (!bTargeting && !bShiftKeyDown)
 	{
 		// ちょっとしか押してない場合、その地点に移動
 		APawn* ControlledPawn = GetPawn<APawn>();
@@ -179,7 +178,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	}
 
 	// 入力が左クリックの場合
-	if (bTargeting)
+	if (bTargeting || bShiftKeyDown)
 	{
 		// マウスの下に敵がいた場合
 		if (GetASC())GetASC()->AbilityInputTagHeld(InputTag);
