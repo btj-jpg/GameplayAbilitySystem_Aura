@@ -10,6 +10,8 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Aura/Aura.h"
 #include "UI/Widget/AuraUserWidget.h"
+#include "AuraGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AAuraEnemy::AAuraEnemy()
 {
@@ -30,13 +32,15 @@ AAuraEnemy::AAuraEnemy()
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 
 	if (UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
 		AuraUserWidget->SetWidgetController(this);
 	}
-	
+
+	// 敵キャラクターのHealthとMaxHealthのデリゲート設定
 	if (const UAuraAttributeSet* AuraAS = Cast<UAuraAttributeSet>(AttributeSet))
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAS->GetHealthAttribute()).AddLambda(
@@ -51,11 +55,25 @@ void AAuraEnemy::BeginPlay()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
+		
+		/* EGameplayTagEventType
+		/ https://docs.unrealengine.com/4.26/en-US/API/Plugins/GameplayAbilities/EGameplayTagEventType__Type/
+		/ NewOrRemoved タグが追加されるか消去されると起動
+		*/
+		AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved)
+		.AddUObject(this, &AAuraEnemy::HitReactTagChanged);
 
+		// 初期化のために一度ブロードキャスト
 		OnHealthChanged.Broadcast(AuraAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
 	}
 
+}
+
+void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 
 void AAuraEnemy::InitAbilityActorInfo()

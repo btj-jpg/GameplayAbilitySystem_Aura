@@ -16,6 +16,8 @@ class UCombatInterface : public UInterface
 	GENERATED_BODY()
 };
 
+class UAnimMontage;
+
 /**
  * 
  */
@@ -23,7 +25,7 @@ class UCombatInterface : public UInterface
 class AURA_API ICombatInterface
 {
 	GENERATED_BODY()
-
+	
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual int32 GetPlayerLevel();
@@ -31,4 +33,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateFacingTarget(const FVector& Target);
+
+	// ブループリント側でネイティブバージョンを自動生成する
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetHitReactMontage(); 
 };

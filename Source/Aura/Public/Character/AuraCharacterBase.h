@@ -12,6 +12,7 @@ class UGameplayAbility;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
+class UAnimMontage;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -30,6 +31,8 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
+
+	virtual  UAnimMontage* GetHitReactMontage_Implementation() override;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -70,5 +73,9 @@ private:
 	// 初期で使えるアビリティ
 	UPROPERTY(EditAnywhere, Category="Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	// ヒットアニメーション
+	UPROPERTY(EditAnywhere, Category="Abilities")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 
 };
