@@ -71,6 +71,7 @@ public:
 	// 関数ポインターを使用したいときに使う ほかの例
 	// TstaticFuncPtr<float(int32, float, Int32)> RandomFuncPtr
 	// static float RandomFunction(int32 I, float F, int32 I2){ return 0; }
+	// ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strength); 属性にアクセスする関数などが使用できるようになる
 	
 	/*
 	 * Primary Attributes
@@ -148,6 +149,16 @@ public:
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 
+	/*
+	 * Meta Attributes
+	 */
+
+	// サーバー上でのみ使用するのでレプリケートしない
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+
+	
 
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;

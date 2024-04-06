@@ -28,7 +28,7 @@ struct FCharacterClassDefaultInfo
 };
 
 /**
- * 
+ * データアセットを作成上のenumとクラスはデータアセット作成時に設定可能な項目
  */
 UCLASS()
 class AURA_API UCharacterClassInfo : public UDataAsset
