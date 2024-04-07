@@ -27,6 +27,7 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController")
 	static  UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
 
+	// 敵の初期ステータス設定　敵の種類によってステータスを変更できる
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAttributes(
 		const UObject* WorldContextObject,
@@ -34,5 +35,9 @@ public:
 		float Level,
 		UAbilitySystemComponent* ASC
 		);
+
+	
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
 	
 };

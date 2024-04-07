@@ -36,5 +36,8 @@ public:
 
 	// ブループリント側でネイティブバージョンを自動生成する
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	UAnimMontage* GetHitReactMontage(); 
+	UAnimMontage* GetHitReactMontage();
+
+	// =0　でピュアファンクションであることを表す
+	virtual void Die() = 0;
 };
