@@ -78,8 +78,7 @@ void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, 
 {
 	if (IsValid(TargetCharacter) && DamageTextComonentClass)
 	{
-
-		UE_LOG(LogTemp, Warning, TEXT("bbb"));
+		
 		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComonentClass);
 
 		// コンポーネントを動的に作成する際に必要
