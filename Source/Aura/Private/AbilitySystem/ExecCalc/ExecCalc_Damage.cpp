@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -80,7 +81,7 @@ void UExecCalc_Damage::Execute_Implementation(
 	float CriticalHitResistance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatic().BlockChanceDef, EvaluateParameters, CriticalHitResistance);
 	CriticalHitResistance = FMath::Max<float>(0.f, CriticalHitResistance);
-
+	
 	bool bCritical = false;
 	float ExecutionCriticalHitChance = FMath::Max<float>(1.f, CriticalHitChance - CriticalHitResistance);
 	UE_LOG(LogTemp, Warning, TEXT("%f"), ExecutionCriticalHitChance);
@@ -97,20 +98,24 @@ void UExecCalc_Damage::Execute_Implementation(
 
 		bCritical = true;
 	}
-
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCritical);
 	
+	// ターゲットがダメージブロックしたか
+	bool bBlocked = false;
 	if (!bCritical)
 	{
-		// ターゲットがダメージブロックしたか
+		
 		float BlockChance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatic().BlockChanceDef, EvaluateParameters, BlockChance);
 		BlockChance = FMath::Max<float>(0.f, BlockChance);
 
-		if (FMath::RandRange(1.f, 100.f) < BlockChance)
-		{
-			Damage = Damage/2;
-		}
+		bBlocked = FMath::RandRange(1.f, 100.f) < BlockChance;
+		
+		Damage = bBlocked ? Damage/2.f : Damage;
+		
 	}
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
 
 	// ターゲットのアーマー
 	float TargetArmor = 0.f;

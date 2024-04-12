@@ -13,8 +13,8 @@ public:
 	bool IsCriticalHit() const { return bIsCriticalHit; }
 	bool IsBlockedHit() const { return bIsBlockedHit; }
 
-	void SetIsCriticalHit(bool bInIsCriticalHIt) { bIsCriticalHit = bInIsCriticalHIt; }
-	void SetIsBlockedHit(bool bInIsBlockedHIt) { bIsBlockedHit = bInIsBlockedHIt; }
+	void SetIsCriticalHit(bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
+	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; }
 
 	/** このコンテキストのコピーを作成し、後で変更するために複製するために使用します */
 	virtual FAuraGameplayEffectContext* Duplicate() const
