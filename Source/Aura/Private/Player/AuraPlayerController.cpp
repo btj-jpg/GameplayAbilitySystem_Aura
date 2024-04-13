@@ -74,7 +74,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 }
 
 // ダメージテキストを表示する
-void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit)
 {
 	if (IsValid(TargetCharacter) && DamageTextComonentClass)
 	{
@@ -87,7 +87,8 @@ void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, 
 		// キャラクターの位置に作成されその場に残る
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		DamageText->SetDamageText(DamageAmount);
+		
+		DamageText->SetDamageText(DamageAmount, bBlockedHit, bCriticalHit);
 	}
 }
 

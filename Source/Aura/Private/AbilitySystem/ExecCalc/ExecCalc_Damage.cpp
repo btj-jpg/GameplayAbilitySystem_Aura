@@ -67,14 +67,18 @@ void UExecCalc_Damage::Execute_Implementation(
 	const FGameplayTagContainer* TargetTag = Spec.CapturedTargetTags.GetAggregatedTags();
 	
 	// Get Damage Set By Coller Magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
-
+	float Damage = 0.f;
+	for (FGameplayTag DamageTypesTag : FAuraGameplayTags::Get().DamageTypes)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypesTag);
+		Damage += DamageTypeValue;
+	}
 
 	// クリティカルヒット計算
 
 	// クリティカルヒットチャンス
 	float CriticalHitChance = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatic().BlockChanceDef, EvaluateParameters, CriticalHitChance);
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatic().CriticalHitChanceDef, EvaluateParameters, CriticalHitChance);
 	CriticalHitChance = FMath::Max<float>(0.f, CriticalHitChance);
 	
 	// クリティカルヒット抵抗
@@ -84,17 +88,15 @@ void UExecCalc_Damage::Execute_Implementation(
 	
 	bool bCritical = false;
 	float ExecutionCriticalHitChance = FMath::Max<float>(1.f, CriticalHitChance - CriticalHitResistance);
-	UE_LOG(LogTemp, Warning, TEXT("%f"), ExecutionCriticalHitChance);
 	if (FMath::RandRange(1.f, 100.f) < ExecutionCriticalHitChance)
 	{
-		UE_LOG(LogTemp, Error, TEXT("%f"), ExecutionCriticalHitChance);
 		// クリティカルヒットダメージ
 		float CriticalHitDamage = 0.f;
-		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatic().BlockChanceDef, EvaluateParameters, CriticalHitDamage);
+		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatic().CriticalHitDamageDef, EvaluateParameters, CriticalHitDamage);
 		CriticalHitDamage = FMath::Max<float>(0.f, CriticalHitDamage);
 
 		Damage *= 2;
-		Damage += CriticalHitDamage;
+		Damage += CriticalHitDamage + FMath::RandRange(1.f, 10.f);
 
 		bCritical = true;
 	}
