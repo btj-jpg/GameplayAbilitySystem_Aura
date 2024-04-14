@@ -76,7 +76,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 // ダメージテキストを表示する
 void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit)
 {
-	if (IsValid(TargetCharacter) && DamageTextComonentClass)
+	if (IsValid(TargetCharacter) && DamageTextComonentClass && IsLocalController())
 	{
 		
 		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComonentClass);

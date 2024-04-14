@@ -89,7 +89,7 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bo
 	}
 	if (RepBits & (1 << 7))
 	{
-		Ar << bIsCriticalHit;
+		Ar << bIsBlockedHit;
 		bIsBlockedHit = true;
 	}
 	if (RepBits & (1 << 8))
