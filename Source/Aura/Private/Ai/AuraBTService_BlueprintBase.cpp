@@ -1,13 +1,14 @@
 // Copyright Druid Mechanics
 
 
-#include "Ai/BTService_FindNearestPlayer.h"
+#include "Ai/AuraBTService_BlueprintBase.h"
 
 #include "AIController.h"
 #include "BehaviorTree/BTFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
-void UBTService_FindNearestPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+
+void UAuraBTService_BlueprintBase::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
@@ -25,7 +26,6 @@ void UBTService_FindNearestPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, u
 	// 一番近い敵をターゲットにする
 	for (AActor* Actor : ActorWithTag)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, *Actor->GetName());
 		if (IsValid(Actor) && IsValid(OwningPawn))
 		{
 			const float Distance = OwningPawn->GetDistanceTo(Actor);
@@ -37,6 +37,6 @@ void UBTService_FindNearestPlayer::TickNode(UBehaviorTreeComponent& OwnerComp, u
 		}
 	}
 
-	UBTFunctionLibrary::SetBlackboardValueAsObject(this, TargetFollowSelector, ClosestActor);
-	UBTFunctionLibrary::SetBlackboardValueAsFloat(this, DistanceToTargetSelector, ClosestDistance);
+	//UBTFunctionLibrary::SetBlackboardValueAsObject(this, TargetFollowSelector, ClosestActor);
+	//UBTFunctionLibrary::SetBlackboardValueAsObject(this, DistanceToTargetSelector, ClosestDistance);
 }

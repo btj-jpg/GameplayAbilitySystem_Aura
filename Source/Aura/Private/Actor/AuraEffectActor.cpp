@@ -21,6 +21,8 @@ void AAuraEffectActor::BeginPlay()
 // オーバーレイ時に効果起動
 void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 {
+	// 敵に当たったならやめる
+	if (TargetActor->ActorHasTag("Enemy") && !bApplyEffectsToEnemies) return;
 	
 	if (InstanceEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
@@ -42,6 +44,8 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 // オーバーレイ時に終了時起動
 void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 {
+	// 敵に当たったならやめる
+	if (TargetActor->ActorHasTag("Enemy") && !bApplyEffectsToEnemies) return;
 
 	if (InstanceEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
@@ -88,6 +92,9 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 // 実際にエフェクトを適応する処理
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GamePlayEffectClass)
 {
+	// 敵に当たったならやめる
+	if (TargetActor->ActorHasTag("Enemy") && !bApplyEffectsToEnemies) return;
+	
 	// アクターにアビリティシステムがあるか確かめる
 	// なかったら nullptrを返す
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
@@ -122,6 +129,11 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	{
 		// ActiveGameplayEffectHandle, UAbilitySystemComponent*
 		ActiveEffectHandles.Add(ActiveEffectHandle, TargetASC);
+	}
+
+	if (!bInInfinite)
+	{
+		Destroy();
 	}
 	
 }

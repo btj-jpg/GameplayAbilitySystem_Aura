@@ -39,10 +39,7 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
-	bool bDestroyOnEffectRemoval = false;
-
+	
 	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* TargetActor);
 
@@ -56,6 +53,13 @@ protected:
 	
 	// ブループリント側で設置するクラス
 	// 応用
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
+	bool bDestroyOnEffectApplication = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
+	bool bApplyEffectsToEnemies = false;
+
 
 	// 一度きりの効果
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effect")
