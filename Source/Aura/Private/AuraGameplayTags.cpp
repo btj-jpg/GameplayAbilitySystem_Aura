@@ -208,14 +208,6 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FName("Effects.HitReact"),
 			FString("HitReact")
 			);
-
-	// アビリティの種類
-	GameplayTags.Effects_HitReact =
-		UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Abilities.Attack"),
-			FString("Attack Ability Tag")
-			);
-	
 	
 }
 

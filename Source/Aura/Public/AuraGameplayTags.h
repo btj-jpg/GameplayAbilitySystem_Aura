@@ -56,8 +56,6 @@ public:
   FGameplayTag Damage_Arcane;
   FGameplayTag Damage_Physical;
 
-  FGameplayTag Abilities_Attack;
-
   //属性と耐性をマップにしまっておく　　 
   TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
  
