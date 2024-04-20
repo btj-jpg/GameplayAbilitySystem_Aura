@@ -29,7 +29,10 @@ public:
 	
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
-	virtual void InitializeDefaultAttributes() const override;
+
+	// 攻撃アニメーションの時などにコンバットターゲットを指定するために使う
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() const override;
 	
 	/* End Enemy Interface */
 
@@ -40,6 +43,8 @@ public:
 	
 	/* End Combat Interface */
 
+	virtual void InitializeDefaultAttributes() const override;
+	
 	//#include "Ui/WidgetController/OverlayWidgetController.h"
 	// includeでオーバーレイウィジェットコントローラーを含めてデリゲート設定を流用する
 	UPROPERTY(BlueprintAssignable)
@@ -58,7 +63,10 @@ public:
 	float BaseWalkSpeed = 250.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-	float LifeSpan = 5.f;	
+	float LifeSpan = 5.f;
+
+	UPROPERTY(BlueprintReadWrite, Category="Combat")
+	TObjectPtr<AActor> CombatTarget;
 
 protected:
 	virtual void BeginPlay() override;

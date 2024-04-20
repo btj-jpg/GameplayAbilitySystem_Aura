@@ -23,4 +23,12 @@ class AURA_API IEnemyInterface
 public:
 	virtual void HighLightActor() = 0;
 	virtual void UnHighLightActor() = 0;
+
+	// 作成される関数には　Implementationがつく
+	// ブループリントで呼び出すことができ、オーバーライドすることもできる
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void SetCombatTarget(AActor* InCombatTarget);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	AActor* GetCombatTarget() const;
 };

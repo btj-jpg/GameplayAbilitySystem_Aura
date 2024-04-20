@@ -49,7 +49,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
 
 	// アビリティシステムコンポーネントのポインター
 	// レッスン22では敵の設定だけ狩猟していてプレイヤー側はnullptr

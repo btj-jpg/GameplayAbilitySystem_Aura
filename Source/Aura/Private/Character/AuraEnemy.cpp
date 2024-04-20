@@ -128,6 +128,16 @@ void AAuraEnemy::UnHighLightActor()
 	Weapon->SetRenderCustomDepth(false);
 }
 
+void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AAuraEnemy::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
+}
+
 // 敵の初期パラメータ取得
 void AAuraEnemy::InitializeDefaultAttributes() const
 {
