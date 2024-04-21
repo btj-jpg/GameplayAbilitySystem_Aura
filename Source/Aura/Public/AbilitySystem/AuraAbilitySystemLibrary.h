@@ -63,4 +63,8 @@ public:
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsCriticalHit);
 
 	/* AuragameplayEffectContext End */
+
+	// 攻撃のあたり判定内にいるプレイヤーを見つける
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|GameplayMechanics")
+	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActor, UPARAM(ref) TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereOrigin);
 };

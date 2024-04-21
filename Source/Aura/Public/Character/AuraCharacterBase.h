@@ -32,12 +32,19 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
 
-	virtual  UAnimMontage* GetHitReactMontage_Implementation() override;
-	virtual  void Die() override;
-
 	// NetMulticast RPCであることを示す
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
+
+	// combatInterface 
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual void Die() override;
+	virtual bool IsDead_Implementation() const override;
+	virtual AActor* GetAvatar_Implementation() override;
+	virtual FVector GetCombatSocketLocation_Implementation() override;
+
+	// combatInterface end
 	
 	
 protected:
@@ -48,9 +55,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	FName WeaponTipSocketName;
-
-	virtual FVector GetCombatSocketLocation_Implementation() override;
-
+	
 	// アビリティシステムコンポーネントのポインター
 	// レッスン22では敵の設定だけ狩猟していてプレイヤー側はnullptr
 	UPROPERTY()
@@ -80,6 +85,9 @@ protected:
 
 	void AddCharacterAbilities();
 
+	// 自身の死亡判定
+	bool bDead = false;
+	
 	/* ディゾルブエフェクト　*/
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;

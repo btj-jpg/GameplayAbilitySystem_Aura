@@ -30,6 +30,11 @@ class AURA_API ICombatInterface
 public:
 	virtual int32 GetPlayerLevel();
 
+	/*
+	 *BlueprintImplementableEvent は基本的な実装を持つ関数を Blueprint 内で拡張するためのものであり、
+	 *BlueprintNativeEvent はC++での実装と同時にBlueprint内での実装を提供するもの
+	*/
+	
 	// BlueprintNativeEvent　はもともとの所有者は定義の必要なし
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetCombatSocketLocation();
@@ -43,4 +48,12 @@ public:
 
 	// =0　でピュアファンクションであることを表す
 	virtual void Die() = 0;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsDead() const;
+
+	// アクターはゲーム内のオブジェクト全般を指し、アバターはプレイヤーが操作するキャラクターを指します
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	AActor* GetAvatar();
+	
 };
