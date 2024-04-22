@@ -215,6 +215,28 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FName("Abilities.Attack"),
 			FString("Attack Ability Tag")
 			);
+
+
+	// モンタージュのソケット
+	GameplayTags.Montage_Attack_Weapon =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+				FName("Montage.Attack.Weapon"),
+				FString("Weapon Attack Tag")
+				);
+
+	GameplayTags.Montage_Attack_RightHand =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Montage.Attack.RightHand"),
+			FString("RightHand Attack Tag")
+			);
+
+	GameplayTags.Montage_Attack_LeftHand =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Montage.Attack.LeftHand"),
+			FString("LeftHand Attack Tag")
+			);
+
+
 	
 }
 

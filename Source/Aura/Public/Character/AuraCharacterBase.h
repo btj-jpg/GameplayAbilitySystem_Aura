@@ -42,8 +42,12 @@ public:
 	virtual void Die() override;
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
-	virtual FVector GetCombatSocketLocation_Implementation() override;
-
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
+	virtual TArray<FTagMontage> GetAttackMontage_Implementation() override;
+	
+	UPROPERTY(EditAnywhere, Category="combat")
+	TArray<FTagMontage> AttackMontages;
+	
 	// combatInterface end
 	
 	
@@ -53,8 +57,16 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	// ソケットの名前
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	FName WeaponTipSocketName;
+
+	UPROPERTY(EditAnywhere, Category= "Combat")
+	FName LeftHandSocketName;
+
+	UPROPERTY(EditAnywhere, Category= "Combat")
+	FName RightHandSocketName;
+
 	
 	// アビリティシステムコンポーネントのポインター
 	// レッスン22では敵の設定だけ狩猟していてプレイヤー側はnullptr

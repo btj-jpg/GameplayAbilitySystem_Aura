@@ -57,6 +57,11 @@ public:
   FGameplayTag Damage_Physical;
 
   FGameplayTag Abilities_Attack;
+ 
+  // 敵攻撃時のソケットの位置
+  FGameplayTag Montage_Attack_Weapon;
+  FGameplayTag Montage_Attack_RightHand;
+  FGameplayTag Montage_Attack_LeftHand;
 
   //属性と耐性をマップにしまっておく　　 
   TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;

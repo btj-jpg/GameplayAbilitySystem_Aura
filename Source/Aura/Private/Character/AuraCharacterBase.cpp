@@ -3,6 +3,7 @@
 #include "Character/AuraCharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "GameplayEffect.h"
 #include "GameplayEffectTypes.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
@@ -71,16 +72,33 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	
 }
 
+TArray<FTagMontage> AAuraCharacterBase::GetAttackMontage_Implementation()
+{
+	return AttackMontages;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+	if (MontageTag.MatchesTag(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag.MatchesTag(GameplayTags.Montage_Attack_RightHand))
+	{
+		return Weapon->GetSocketLocation(RightHandSocketName);
+	}
+	if (MontageTag.MatchesTag(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return Weapon->GetSocketLocation(LeftHandSocketName);
+	}
+	return FVector();
 }
 
 void AAuraCharacterBase::InitAbilityActorInfo()
