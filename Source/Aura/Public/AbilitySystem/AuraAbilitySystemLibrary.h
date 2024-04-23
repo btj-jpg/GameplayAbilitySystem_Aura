@@ -67,4 +67,9 @@ public:
 	// 攻撃のあたり判定内にいるプレイヤーを見つける
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|GameplayMechanics")
 	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActor, UPARAM(ref) TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereOrigin);
+
+	// 敵同士のフレインドリーファイアをなくす
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|GameplayMechanics")
+	static bool IsNotFriend(AActor* FirstActor, AActor * SecondActor);
+
 };
