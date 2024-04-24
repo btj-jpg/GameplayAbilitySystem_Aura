@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+#include "Interaction/CombatInterface.h"
 #include "AuraDamageGameplayAbility.generated.h"
 
 /**
@@ -28,5 +29,8 @@ protected:
 	// ダメージの種類 種類のタグとダメージの値カーブ
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	TMap<FGameplayTag, FScalableFloat> DamageTypes;
+
+	UFUNCTION(BlueprintPure)
+	FTagMontage GetRandomTagMontageFromArray(const TArray<FTagMontage>& TagMontages) const;
 	
 };
