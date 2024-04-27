@@ -217,26 +217,50 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			);
 
 
-	// モンタージュのソケット
-	GameplayTags.Montage_Attack_Weapon =
+	// コンバットソケット
+	GameplayTags.CombatSocket_Weapon =
 			UGameplayTagsManager::Get().AddNativeGameplayTag(
-				FName("Montage.Attack.Weapon"),
-				FString("Weapon Attack Tag")
+				FName("CombatSocket.Weapon"),
+				FString("Weapon CombatSocket Tag")
 				);
 
-	GameplayTags.Montage_Attack_RightHand =
+	GameplayTags.CombatSocket_RightHand =
 		UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Montage.Attack.RightHand"),
-			FString("RightHand Attack Tag")
+			FName("CombatSocket.RightHand"),
+			FString("RightHand CombatSocket Tag")
 			);
 
-	GameplayTags.Montage_Attack_LeftHand =
+	GameplayTags.CombatSocket_LeftHand =
 		UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Montage.Attack.LeftHand"),
-			FString("LeftHand Attack Tag")
+			FName("CombatSocket.LeftHand"),
+			FString("LeftHand CombatSocket Tag")
 			);
 
+	
+	// モンタージュタグ
+	GameplayTags.Montage_Attack_1 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Montage.Attack.1"),
+			FString("Montage Tag 1")
+			);
 
+	GameplayTags.Montage_Attack_2 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Montage.Attack.2"),
+			FString("Montage Tag 2")
+			);
+
+	GameplayTags.Montage_Attack_3 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Montage.Attack.3"),
+			FString("Montage Tag 3")
+			);
+
+	GameplayTags.Montage_Attack_4 =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Montage.Attack.4"),
+			FString("Montage Tag 4")
+			);
 	
 }
 

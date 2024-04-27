@@ -59,10 +59,14 @@ public:
   FGameplayTag Abilities_Attack;
  
   // 敵攻撃時のソケットの位置
-  FGameplayTag Montage_Attack_Weapon;
-  FGameplayTag Montage_Attack_RightHand;
-  FGameplayTag Montage_Attack_LeftHand;
-
+  FGameplayTag CombatSocket_Weapon;
+  FGameplayTag CombatSocket_RightHand;
+  FGameplayTag CombatSocket_LeftHand;
+ 
+  FGameplayTag Montage_Attack_1;
+  FGameplayTag Montage_Attack_2;
+  FGameplayTag Montage_Attack_3;
+  FGameplayTag Montage_Attack_4;
   //属性と耐性をマップにしまっておく　　 
   TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
  

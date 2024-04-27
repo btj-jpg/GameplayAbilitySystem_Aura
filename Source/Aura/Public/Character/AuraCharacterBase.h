@@ -46,7 +46,9 @@ public:
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
 	virtual TArray<FTagMontage> GetAttackMontage_Implementation() override;
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
-	
+	virtual FTagMontage GetTagGetMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
+
+	// 攻撃モンタージュのアレイ
 	UPROPERTY(EditAnywhere, Category="combat")
 	TArray<FTagMontage> AttackMontages;
 	
@@ -117,8 +119,11 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	UNiagaraSystem* BloodEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	USoundBase* DeathSound;
 	
 private:
 
