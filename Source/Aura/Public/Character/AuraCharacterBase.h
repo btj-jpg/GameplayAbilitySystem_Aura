@@ -71,6 +71,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	FName RightHandSocketName;
 
+	UPROPERTY(EditAnywhere, Category= "Combat")
+	FName TailSocketName;
+
 	
 	// アビリティシステムコンポーネントのポインター
 	// レッスン22では敵の設定だけ狩猟していてプレイヤー側はnullptr
