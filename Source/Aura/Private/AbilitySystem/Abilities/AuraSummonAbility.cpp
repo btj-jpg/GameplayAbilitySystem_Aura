@@ -3,8 +3,6 @@
 
 #include "AbilitySystem/Abilities/AuraSummonAbility.h"
 
-#include "Kismet/KismetSystemLibrary.h"
-
 TArray<FVector> UAuraSummonAbility::GetSpawnLocation()
 {
 	const FVector Forward = GetAvatarActorFromActorInfo()->GetActorForwardVector();
@@ -18,22 +16,30 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocation()
 	for (int32 i = 0; i < NumMinions; i ++)
 	{
 		const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, FVector::UpVector);
-		const FVector ChosenSpawnLocation = Location + Direction * FMath::FRandRange(MinSpawnDistance, MaxSpawnDistance);
+		FVector ChosenSpawnLocation = Location + Direction * FMath::FRandRange(MinSpawnDistance, MaxSpawnDistance);
+
+		FHitResult Hit;
+		GetWorld()->LineTraceSingleByChannel(
+			Hit,
+			ChosenSpawnLocation + FVector(0.f, 0.f, 400.f),
+			ChosenSpawnLocation - FVector(0.f, 0.f, 400.f),
+			ECC_Visibility);
+		
+		if (Hit.bBlockingHit)
+		{
+			ChosenSpawnLocation = Hit.ImpactPoint;
+		}
+		
 		SpawmLocations.Add(ChosenSpawnLocation);
 		
-		DrawDebugSphere(GetWorld(), ChosenSpawnLocation, 18.f, 12, FColor::Green, false, 3.f);
-		UKismetSystemLibrary::DrawDebugArrow(
-		GetAvatarActorFromActorInfo(),
-		Location,
-		Location + Direction * MaxSpawnDistance,
-		4.f,
-		FLinearColor::Gray,
-		3.f);
-
-		DrawDebugSphere(GetWorld(), Location + Direction * MinSpawnDistance, 15.f, 12, FColor::Red, false, 3.f);
-		DrawDebugSphere(GetWorld(), Location + Direction * MaxSpawnDistance, 15.f, 12, FColor::Red, false, 3.f);
 	}
 	
 	return SpawmLocations;
 	
+}
+
+TSubclassOf<APawn> UAuraSummonAbility::GetRandomMinionClass()
+{
+	int32 Selection = FMath::RandRange(0, MinionClasses.Num() - 1);
+	return MinionClasses[Selection];
 }

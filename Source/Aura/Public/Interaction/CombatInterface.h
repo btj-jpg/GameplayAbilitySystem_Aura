@@ -88,4 +88,7 @@ public:
 	// ゲームキューでサウンドを取得するために使用
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FTagMontage GetTagGetMontageByTag(const FGameplayTag& MontageTag);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	int32 GetMinionTag();
 };

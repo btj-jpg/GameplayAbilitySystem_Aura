@@ -100,6 +100,11 @@ FTagMontage AAuraCharacterBase::GetTagGetMontageByTag_Implementation(const FGame
 	return FTagMontage();
 }
 
+int32 AAuraCharacterBase::GetMinionTag_Implementation()
+{
+	return MinionCount;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

@@ -57,6 +57,7 @@ public:
   FGameplayTag Damage_Physical;
 
   FGameplayTag Abilities_Attack;
+  FGameplayTag Abilities_Summon;
  
   // 敵攻撃時のソケットの位置
   FGameplayTag CombatSocket_Weapon;
