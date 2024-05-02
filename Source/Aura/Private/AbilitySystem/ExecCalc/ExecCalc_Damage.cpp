@@ -116,7 +116,7 @@ void UExecCalc_Damage::Execute_Implementation(
 		// TagsToCaptureDefs 特定のタグがあるか検索する
 		const FGameplayEffectAttributeCaptureDefinition CaptureDef = AuraDamageStatics().TagsToCaptureDefs[ResistanceTag];
 
-		// 引数2 ダメージタイプが存在しないなら計算しない
+		// 引数2 false ダメージタイプが存在しないなら計算しない
 		float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag, false);
 	
 		float Resistance = 0.f;

@@ -118,6 +118,12 @@ void AAuraEnemy::InitAbilityActorInfo()
 	}
 }
 
+ECharacterClass AAuraEnemy::GetCharacterClass()
+{
+	return CharacterClass;
+}
+
+
 void AAuraEnemy::HighLightActor()
 {
 	GetMesh()->SetRenderCustomDepth(true);

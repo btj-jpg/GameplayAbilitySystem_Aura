@@ -18,7 +18,7 @@ void UAuraProjectileSpell::ActivateAbility(
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag SocketTag)
+void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag SocketTag, bool bOverridePitch, float PitchOverride)
 {
 	// サーバーで呼び出されてるか
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
@@ -30,12 +30,12 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 	// この能力を実行している物理的なアクター GetAvatarActorFromActorInfo()
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
-	
 	if (CombatInterface)
 	{
 		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 		Rotation.Pitch = 0.f;
+		if (bOverridePitch) Rotation.Pitch = PitchOverride;
 		
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);

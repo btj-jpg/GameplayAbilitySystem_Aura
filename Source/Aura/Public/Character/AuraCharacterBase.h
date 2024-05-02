@@ -47,7 +47,8 @@ public:
 	virtual TArray<FTagMontage> GetAttackMontage_Implementation() override;
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
 	virtual FTagMontage GetTagGetMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
-	virtual int32 GetMinionTag_Implementation() override;
+	virtual int32 GetMinionCount_Implementation() override;
+	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
 	
 	// 攻撃モンタージュのアレイ
 	UPROPERTY(EditAnywhere, Category="combat")

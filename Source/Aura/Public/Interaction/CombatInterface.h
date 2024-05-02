@@ -89,6 +89,11 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FTagMontage GetTagGetMontageByTag(const FGameplayTag& MontageTag);
 
+	// ミニオンの数を表示
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	int32 GetMinionTag();
+	int32 GetMinionCount();
+
+	// 引き算にも対応
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void IncrementMinionCount(int32 Amount);
 };
