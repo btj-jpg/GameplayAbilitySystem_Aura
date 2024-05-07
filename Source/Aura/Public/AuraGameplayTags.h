@@ -58,6 +58,7 @@ public:
 
   FGameplayTag Abilities_Attack;
   FGameplayTag Abilities_Summon;
+  FGameplayTag Abilities_Fire_FireBolt;
  
   // 敵攻撃時のソケットの位置
   FGameplayTag CombatSocket_Weapon;
