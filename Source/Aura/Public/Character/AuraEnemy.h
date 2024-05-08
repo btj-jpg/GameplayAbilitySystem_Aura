@@ -48,10 +48,10 @@ public:
 	//#include "Ui/WidgetController/OverlayWidgetController.h"
 	// includeでオーバーレイウィジェットコントローラーを含めてデリゲート設定を流用する
 	UPROPERTY(BlueprintAssignable)
-	FOnAttributeChangeSignature OnHealthChanged;
+	FOnAttributeChangedSignature OnHealthChanged;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnAttributeChangeSignature OnMaxHealthChanged;
+	FOnAttributeChangedSignature OnMaxHealthChanged;
 
 	// 指定されたタグの数が変わるたびにタグをカウントする
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);

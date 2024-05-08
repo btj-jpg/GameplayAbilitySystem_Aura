@@ -36,13 +36,12 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bo
 		}
 		if (bIsBlockedHit)
 		{
-			RepBits |= 1 << 7;	
+			RepBits |= 1 << 7;
 		}
 		if (bIsCriticalHit)
 		{
 			RepBits |= 1 << 8;
 		}
-		
 	}
 
 	Ar.SerializeBits(&RepBits, 9);
@@ -90,12 +89,10 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bo
 	if (RepBits & (1 << 7))
 	{
 		Ar << bIsBlockedHit;
-		bIsBlockedHit = true;
 	}
 	if (RepBits & (1 << 8))
 	{
 		Ar << bIsCriticalHit;
-		bIsCriticalHit = true;
 	}
 
 	if (Ar.IsLoading())

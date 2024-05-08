@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameplayEffect.h"
+#include "GameplayEffectTypes.h"
 #include "AuraAbilityTypes.generated.h"
 
 USTRUCT(BlueprintType)
@@ -11,12 +11,18 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 public:
 
 	bool IsCriticalHit() const { return bIsCriticalHit; }
-	bool IsBlockedHit() const { return bIsBlockedHit; }
+	bool IsBlockedHit () const { return bIsBlockedHit; }
 
 	void SetIsCriticalHit(bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; }
+	
+	/** Returns the actual struct used for serialization, subclasses must override this! */
+	virtual UScriptStruct* GetScriptStruct() const
+	{
+		return StaticStruct();
+	}
 
-	/** このコンテキストのコピーを作成し、後で変更するために複製するために使用します */
+	/** Creates a copy of this context, used to duplicate for later modifications */
 	virtual FAuraGameplayEffectContext* Duplicate() const
 	{
 		FAuraGameplayEffectContext* NewContext = new FAuraGameplayEffectContext();
@@ -29,13 +35,7 @@ public:
 		return NewContext;
 	}
 
-	
-	/** シリアル化に使用される実際の構造体を返します。サブクラスはこれをオーバーライドする必要があります。 */
-	virtual UScriptStruct* GetScriptStruct() const
-	{
-		return FGameplayEffectContext::StaticStruct();
-	}
-
+	/** Custom serialization, subclasses must override this */
 	virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
 	
 protected:
@@ -45,15 +45,15 @@ protected:
 	
 	UPROPERTY()
 	bool bIsCriticalHit = false;
+	
 };
 
 template<>
-struct TStructOpsTypeTraits< FAuraGameplayEffectContext > : TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
+struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
 {
 	enum
 	{
 		WithNetSerializer = true,
 		WithCopy = true
 	};
-	
 };
