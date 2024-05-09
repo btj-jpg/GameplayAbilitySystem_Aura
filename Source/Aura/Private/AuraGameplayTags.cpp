@@ -228,6 +228,12 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FString("FireBolt Ability Tag")
 			);
 
+	// クールダウン
+	GameplayTags.CoolDown_Fire_FireBolt =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("CoolDown.Fire.FireBolt"),
+			FString("FireBolt CoolDown Tag")
+			);
 
 	// コンバットソケット
 	GameplayTags.CombatSocket_Weapon =

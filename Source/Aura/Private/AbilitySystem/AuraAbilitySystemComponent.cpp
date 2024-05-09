@@ -12,6 +12,7 @@ void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ClientEffectApplied_Implementation);
 }
 
+// すたーとアップアビリティのセット
 void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
 {
 	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
