@@ -38,7 +38,8 @@ public:
 	virtual void MulticastHandleDeath();
 
 	// combatInterface 
-
+	// interfaceから継承するときは　_Implementation　がつく
+	
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die() override;
 	virtual bool IsDead_Implementation() const override;
@@ -49,6 +50,7 @@ public:
 	virtual FTagMontage GetTagGetMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
+	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	
 	// 攻撃モンタージュのアレイ
 	UPROPERTY(EditAnywhere, Category="combat")
@@ -132,6 +134,9 @@ protected:
 
 	/* Minions */
 	int32 MinionCount = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Character Class Defaults")
+	ECharacterClass CharacterClass = ECharacterClass::Warrior;
 	
 private:
 
@@ -139,8 +144,14 @@ private:
 	UPROPERTY(EditAnywhere, Category="Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
+	// 初期で使えるアビリティ
+	UPROPERTY(EditAnywhere, Category="Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupPassiveAbilities;
+	
 	// ヒットアニメーション
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
 
 };
+
+

@@ -22,7 +22,7 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 
-	
+	CharacterClass = ECharacterClass::Elementalist;
 }
 
 // -　サーバー用　アビリティアクター情報が初期化

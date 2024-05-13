@@ -72,4 +72,8 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|GameplayMechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor * SecondActor);
 
+	// XPの値をゲットする
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static int32 GetXPReward_ForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 Level);
+
 };

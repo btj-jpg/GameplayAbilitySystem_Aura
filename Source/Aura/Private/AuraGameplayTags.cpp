@@ -201,6 +201,15 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+
+	// メタ属性（複製されない属性）
+	GameplayTags.Attributes_Meta_IncomingXP =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Attributes.Meta.IncomingXP"),
+			FString("MetaAttribute IncomingXP")
+			);
+
+	
 	
 	// ヒット
 	GameplayTags.Effects_HitReact =

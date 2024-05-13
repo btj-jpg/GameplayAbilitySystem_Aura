@@ -114,6 +114,11 @@ void AAuraCharacterBase::IncrementMinionCount_Implementation(int32 Amount)
 	} 
 }
 
+ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
+{
+	return CharacterClass;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -177,6 +182,7 @@ void AAuraCharacterBase::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 
 	AuraASC->AddCharacterAbilities(StartupAbilities);
+	AuraASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
 }
 
 void AAuraCharacterBase::Dissolve()
