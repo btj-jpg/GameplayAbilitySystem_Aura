@@ -13,6 +13,7 @@
 #include "Aura/AuraLogChannels.h"
 #include "Interaction/CombatInterface.h"
 #include "GameplayTagContainer.h"
+#include "Interaction/PlayerInterface.h"
 #include "Player/AuraPlayerController.h"
 
 // タグ設定
@@ -197,9 +198,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 	if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
 	{
-		const float LocalFloat = GetIncomingXP();
+		const float LocalInComingXP = GetIncomingXP();
 		SetIncomingXP(0.f);
-		
+
+		if (Props.SourceCharacter->Implements<UPlayerInterface>())
+		{
+			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalInComingXP);
+		}
 	}
 	
 }

@@ -128,7 +128,7 @@ void UOverlayWidgetController::OnXPChanged(int32 InXP) const
 		const int32 CalcRequirement = LevelUPRequirement - BeforeLevelUPRequirement;
 		const int32 CalcXP = InXP - BeforeLevelUPRequirement;
 	
-		const int32 XPBarPercent = static_cast<float>(CalcXP) / static_cast<float>(CalcRequirement);
+		const float XPBarPercent = static_cast<float>(CalcXP) / static_cast<float>(CalcRequirement);
 
 		OnXPPercentChangeDelegate.Broadcast(XPBarPercent);
 	}
