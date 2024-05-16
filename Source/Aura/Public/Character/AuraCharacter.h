@@ -7,6 +7,9 @@
 #include "Interaction/PlayerInterface.h"
 #include "AuraCharacter.generated.h"
 
+class UNiagaraComponent;
+class UCameraComponent;
+class USpringArmComponent;
 /**
  * 
  */
@@ -37,6 +40,20 @@ public:
 	virtual int32 GetPlayerLevel_Implementation() override;
 	/* End Combat Interface */
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Niagara")
+	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
+	
 private:
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UCameraComponent> TopDownCameraComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USpringArmComponent> CameraBoom;
+	
 	virtual void InitAbilityActorInfo() override;
+
+	//サーバーから呼び出された関数をサーバー上のすべてのクライアントに送信します。
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastLevelUpParticles() const;
 };
