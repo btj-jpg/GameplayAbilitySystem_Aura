@@ -90,9 +90,6 @@ void AAuraCharacter::MulticastLevelUpParticles_Implementation() const
 		const FVector NiagaraSystemLocation = LevelUpNiagaraComponent->GetComponentLocation();
 		const FRotator ToCameraRotation = (CameraLocation - NiagaraSystemLocation).Rotation();
 		LevelUpNiagaraComponent->SetWorldRotation(ToCameraRotation);
-
-		UE_LOG(LogTemp, Warning, TEXT("aaa"));
-		
 		LevelUpNiagaraComponent->Activate(true);
 	}
 }
@@ -118,14 +115,32 @@ void AAuraCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 	AuraPlayerState->AddToLevel(InPlayerLevel);
 }
 
-void AAuraCharacter::AddToAttributePoints_Implementation(int32 InPlayerLevel)
+void AAuraCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
 {
-	//IPlayerInterface::AddToAttributePoints_Implementation(InPlayerLevel);
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->AddToAttributePoints(InAttributePoints);
 }
 
-void AAuraCharacter::AddToSpellPoints_Implementation(int32 InPlayerLevel)
+void AAuraCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
 {
-	//IPlayerInterface::AddToSpellPoints_Implementation(InPlayerLevel);
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->AddToAttributePoints(InSpellPoints);
+}
+
+int32 AAuraCharacter::GetAttributePoints_Implementation() const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetAttributePoints();
+}
+
+int32 AAuraCharacter::GetSpellPoints_Implementation() const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetSpellPoints();
 }
 
 int32 AAuraCharacter::GetPlayerLevel_Implementation()
