@@ -6,9 +6,12 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Data/CharacterClassInfo.h"
+#include "UI/WidgetController/AuraWidgetController.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
 
+class AAuraHUD;
+struct FWidgetControllerParams;
 class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
 /**
@@ -21,13 +24,20 @@ class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 
 public:
 
+	// AuraHUDのポインターを参照渡しする
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
+	static bool MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD);
+
 	// オーバーレイウィジェットコントローラーをゲットする
-	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController")
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static  UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
 
 	// アトリビュートウィジェットコントローラーをゲットする
-	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController")
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static  UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
+	static  USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
 	// 敵の初期ステータス設定　敵の種類によってステータスを変更できる
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
