@@ -14,6 +14,9 @@ class AURA_API USpellMenuWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
 
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FOnPlayerStatChangedSignature SpellPointChanged;
+	
 public:
 	
 	virtual void BroadcastInitialValues() override;

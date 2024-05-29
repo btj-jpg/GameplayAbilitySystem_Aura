@@ -68,6 +68,7 @@ void AAuraPlayerState::AddToAttributePoints(const int32 InPoints)
 
 void AAuraPlayerState::AddToSpellPoints(const int32 InPoints)
 {
+	UE_LOG(LogTemp, Warning, TEXT("%i"), SpellPoints);
 	SpellPoints += InPoints;
 	OnSpellPointsChangedDelegate.Broadcast(SpellPoints);
 }
@@ -86,10 +87,10 @@ void AAuraPlayerState::OnRep_XP(int32 OldXP)
 
 void AAuraPlayerState::OnRep_AttributePoints(int32 OldAttributePoints)
 {
-	OnAttributePointsChangedDelegate.Broadcast(OldAttributePoints);
+	OnAttributePointsChangedDelegate.Broadcast(AttributePoints);
 }
 
 void AAuraPlayerState::OnRep_SpellPoints(int32 OldSpellPoints)
 {
-	OnSpellPointsChangedDelegate.Broadcast(OldSpellPoints);
+	OnSpellPointsChangedDelegate.Broadcast(SpellPoints);
 }

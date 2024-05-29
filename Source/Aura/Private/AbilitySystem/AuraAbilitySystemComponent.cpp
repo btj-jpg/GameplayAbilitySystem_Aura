@@ -161,6 +161,8 @@ void UAuraAbilitySystemComponent::UpDataAbilityStatuses(int32 Level)
 	{
 		if (!Info.AbilityTag.IsValid()) continue;
 		if (Level < Info.LevelRequirement) continue;
+
+		// 指定のアビリティがアクティブでない場合アクティブにする
 		if (GetSpecFromAbilityTag(Info.AbilityTag) == nullptr)
 		{
 			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.Ability, 1);
@@ -169,6 +171,7 @@ void UAuraAbilitySystemComponent::UpDataAbilityStatuses(int32 Level)
 
 			// 即時にクライアントにも反映させる
 			MarkAbilitySpecDirty(AbilitySpec);
+			ClientUpDateAbilityStatus(Info.AbilityTag, FAuraGameplayTags::Get().Abilities_Status_Eligible);
 		}
 	}
 }
@@ -200,6 +203,11 @@ void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
 		bStartupAbilitiesGiven = true;
 		AbilitiesGivenDelegate.Broadcast();
 	}
+}
+
+void UAuraAbilitySystemComponent::ClientUpDateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+{
+	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
 }
 
 void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent,

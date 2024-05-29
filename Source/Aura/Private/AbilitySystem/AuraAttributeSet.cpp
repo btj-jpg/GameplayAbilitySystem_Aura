@@ -213,7 +213,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			{
 				int32 AttributePointReward = IPlayerInterface::Execute_GetAttributePointReword(Props.SourceCharacter, CurrentLevel);
 				int32 SpellPointReward = IPlayerInterface::Execute_GetSpellPointReword(Props.SourceCharacter, CurrentLevel);
-
+				
 				IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumLevelUps);
 				IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePointReward);
 				IPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPointReward);
