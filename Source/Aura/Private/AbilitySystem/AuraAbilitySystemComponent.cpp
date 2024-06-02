@@ -176,6 +176,7 @@ void UAuraAbilitySystemComponent::UpDataAbilityStatuses(int32 Level)
 	}
 }
 
+// 対応するアビリティを選択する
 FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
 {
 
