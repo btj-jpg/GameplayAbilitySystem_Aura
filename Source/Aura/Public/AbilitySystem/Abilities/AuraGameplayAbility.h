@@ -19,5 +19,9 @@ public:
 	// どのボタンを押したらアクティブ化するかを決めるタグ
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	FGameplayTag StartUpInputTag;
+
+	virtual FString GetDescription(int32 Level);
+	virtual FString GetNextLevelDescription(int32 Level);
+	static FString GetLockedDescription(int32 Level);
 	
 };
