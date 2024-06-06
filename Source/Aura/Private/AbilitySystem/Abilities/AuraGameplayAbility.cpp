@@ -23,8 +23,6 @@ FString UAuraGameplayAbility::GetLockedDescription(int32 Level)
 float UAuraGameplayAbility::GetManaCost(float InLevel) const
 {
 	float ManaCost = 0;
-
-	
 	if (const UGameplayEffect* CostEffect = GetCostGameplayEffect())
 	{
 		for (FGameplayModifierInfo Mod : CostEffect->Modifiers)
@@ -41,6 +39,13 @@ float UAuraGameplayAbility::GetManaCost(float InLevel) const
 	return ManaCost;
 }
 
-float UAuraGameplayAbility::GetCooldown(float InLevel)
+float UAuraGameplayAbility::GetCooldown(float InLevel) const
 {
+	float Cooldown = 0;
+	if (const UGameplayEffect* CooldownEffect = GetCooldownGameplayEffect())
+	{
+		CooldownEffect->DurationMagnitude.GetStaticMagnitudeIfPossible(InLevel,  Cooldown);
+	}
+	
+	return Cooldown;
 }
