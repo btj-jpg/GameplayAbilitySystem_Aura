@@ -256,6 +256,8 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 		{
 			// ほかのスロットを確かめて削除する
 			ClearAbilitiesOfSlot(Slot);
+			ClearSlot(AbilitySpec);
+			
 			// 選択したスロットをきれいにする
 			AbilitySpec->DynamicAbilityTags.AddTag(Slot);
 			if (Status.MatchesTagExact(GameplayTags.Abilities_Status_Unlocked))
@@ -263,8 +265,16 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 				AbilitySpec->DynamicAbilityTags.RemoveTag(GameplayTags.Abilities_Status_Unlocked);
 				AbilitySpec->DynamicAbilityTags.AddTag(GameplayTags.Abilities_Status_Equipped);
 			}
+			MarkAbilitySpecDirty(*AbilitySpec);
 		}
+		ClientEquipAbility(AbilityTag, GameplayTags.Abilities_Status_Equipped, Slot, PrevSlot);
 	}
+}
+
+void UAuraAbilitySystemComponent::ClientEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& Status,
+	const FGameplayTag& Slot, const FGameplayTag& PreviousSlot)
+{
+	AbilityEquipped.Broadcast(AbilityTag, Status, Slot, PreviousSlot);
 }
 
 bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription,
