@@ -22,6 +22,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(
 	const FGameplayTag&, AbilityType
 );
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(
+	FSpellGlobeReassignedSignature,
+	const FGameplayTag&, AbilityTag
+);
+
 struct FSelectedAbility
 {
 	FGameplayTag Ability = FGameplayTag();
@@ -49,6 +54,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FWaitForEquipSelectionSignature StopWaitForEquipDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FSpellGlobeReassignedSignature SpellGlobeReassignedDelegate;
 	
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;

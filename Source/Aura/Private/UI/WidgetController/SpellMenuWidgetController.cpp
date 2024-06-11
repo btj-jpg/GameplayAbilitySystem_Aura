@@ -120,6 +120,7 @@ void USpellMenuWidgetController::GlobeDeselect()
 
 	SelectedAbility.Ability = FAuraGameplayTags::Get().Abilities_None;
 	SelectedAbility.Status = FAuraGameplayTags::Get().Abilities_Status_locked;
+	
 	SpellGlobeSelectedDelegate.Broadcast(false, false, FString(), FString());
 }
 
@@ -170,6 +171,8 @@ void USpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTa
 	AbilityInfoDelegate.Broadcast(Info);
 	
 	StopWaitForEquipDelegate.Broadcast(AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityTypeTag);
+	SpellGlobeReassignedDelegate.Broadcast(AbilityTag);
+	GlobeDeselect();
 }
 
 void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints,
