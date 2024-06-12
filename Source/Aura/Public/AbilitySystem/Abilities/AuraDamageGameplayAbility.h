@@ -27,12 +27,26 @@ protected:
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 	// ダメージの種類 種類のタグとダメージの値カーブ
+
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
-	TMap<FGameplayTag, FScalableFloat> DamageTypes;
+	FGameplayTag DamageType;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	FScalableFloat Damage;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DebuffChace = 20.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DebuffDamage = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DebuffFrequency = 1.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DebuffDuration = 5.f;
 
 	UFUNCTION(BlueprintPure)
 	FTagMontage GetRandomTagMontageFromArray(const TArray<FTagMontage>& TagMontages) const;
-
-	float GetDamageByDamageType(float InLevel, const FGameplayTag& DamageType);
 	
 };

@@ -160,25 +160,25 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	// ダメージタイプ
 	GameplayTags.Damage_Fire =
 		UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Damage_Fire"),
+			FName("Damage.Fire"),
 			FString("Fire Damage Type")
 			);
 
 	GameplayTags.Damage_Lightning =
 		UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Damage_Lightning"),
+			FName("Damage.Lightning"),
 			FString("Lightning Damage Type")
 			);
 
 	GameplayTags.Damage_Arcane =
 		UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Damage_Arcane"),
+			FName("Damage.Arcane"),
 			FString("Arcane Damage Type")
 			);
 	
 	GameplayTags.Damage_Physical =
 		UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Damage_Physical"),
+			FName("Damage.Physical"),
 			FString("Physical Damage Type")
 			);
 
@@ -213,6 +213,62 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+
+	// デバフ
+	GameplayTags.Debuff_Burn =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Burn"),
+			FString("Fire Damage Debuff")
+			);
+
+	GameplayTags.Debuff_Stun =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Stun"),
+			FString("Lightning Damage Debuff")
+			);
+
+	GameplayTags.Debuff_Arcane =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Arcane"),
+			FString("Arcane Damage Debuff")
+			);
+
+	GameplayTags.Debuff_Physical =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Physical"),
+			FString("Physical Damage Debuff")
+			);
+
+	GameplayTags.Debuff_Chance =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Chance"),
+			FString("Debuff Chance")
+			);
+
+	GameplayTags.Debuff_Damage =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Damage"),
+			FString("Debuff Damage")
+			);
+
+	GameplayTags.Debuff_Duration =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Duration"),
+			FString("Debuff Duration")
+			);
+
+	GameplayTags.Debuff_Frequency =
+			UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Debuff.Frequency"),
+			FString("Debuff Frequency")
+			);
+
+	// ダメージ対応とデバフのグループ
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Arcane, GameplayTags.Debuff_Arcane);
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Lightning, GameplayTags.Debuff_Stun);
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Physical, GameplayTags.Debuff_Physical);
+	GameplayTags.DamageTypesToDebuffs.Add(GameplayTags.Damage_Fire, GameplayTags.Debuff_Burn);
+	
 
 	// メタ属性（複製されない属性）
 	GameplayTags.Attributes_Meta_IncomingXP =
