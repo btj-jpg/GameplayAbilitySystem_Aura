@@ -3,6 +3,8 @@
 
 #include "AuraGameplayTags.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "AssetTypeCategories.h"
 #include "GameplayTagsManager.h"
 

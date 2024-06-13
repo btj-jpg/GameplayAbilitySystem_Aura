@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 #include "Interaction/CombatInterface.h"
+#include "AuraAbilityTypes.h"
 #include "AuraDamageGameplayAbility.generated.h"
+
 
 /**
  * 
@@ -19,6 +21,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
+
+	FDamageEffectParams MakeDamageEffectParamsFromClassDefault(AActor * TargetActor = nullptr) const;
 	
 protected:
 
@@ -35,7 +39,7 @@ protected:
 	FScalableFloat Damage;
 
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
-	float DebuffChace = 20.f;
+	float DebuffChance = 20.f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	float DebuffDamage = 5.f;

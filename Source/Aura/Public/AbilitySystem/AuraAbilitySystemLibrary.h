@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AuraAbilityTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Data/CharacterClassInfo.h"
 #include "UI/WidgetController/AuraWidgetController.h"
@@ -90,4 +91,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static int32 GetXPReward_ForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 Level);
 
+	//FDamageEffectParamsからダメージゲームプレイエフェクトを実装する
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|DamageEffect")
+	static FGameplayEffectContextHandle ApplyDamageEffect(FDamageEffectParams Params);
 };
