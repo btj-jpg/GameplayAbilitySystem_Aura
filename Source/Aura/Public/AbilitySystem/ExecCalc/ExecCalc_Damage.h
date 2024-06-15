@@ -17,6 +17,10 @@ class AURA_API UExecCalc_Damage : public UGameplayEffectExecutionCalculation
 
 public:
 	UExecCalc_Damage();
+	void DeterminedDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	                      const FGameplayEffectSpec& Spec,
+	                      FAggregatorEvaluateParameters EvaluateParameters,
+	                      TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToDefs) const;
 
 	// 計算に使うデータ取得
 	virtual void Execute_Implementation(
