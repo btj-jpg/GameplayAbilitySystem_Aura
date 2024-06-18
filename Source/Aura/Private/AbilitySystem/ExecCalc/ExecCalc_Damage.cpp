@@ -99,7 +99,9 @@ void UExecCalc_Damage::DeterminedDebuff(
 			UE_LOG(LogTemp, Warning, TEXT("%f"), EffectiveDebuffChance);
 			if (bDebuff)
 			{
+				UE_LOG(LogTemp, Warning, TEXT("DDD"));
 				FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
+				
 				UAuraAbilitySystemLibrary::SetIsSuccessfulDebuff(ContextHandle, true);
 				UAuraAbilitySystemLibrary::SetDamageType(ContextHandle, DamageType);
 
