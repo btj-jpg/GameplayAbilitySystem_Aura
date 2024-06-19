@@ -95,11 +95,8 @@ void UExecCalc_Damage::DeterminedDebuff(
 			const float EffectiveDebuffChance = SourceDebuffChance * (100 - TargetDebuffResistance) / 100.f;
 			const bool bDebuff = FMath::RandRange(1, 100) < EffectiveDebuffChance;
 			
-			UE_LOG(LogTemp, Warning, TEXT("%f"), SourceDebuffChance);
-			UE_LOG(LogTemp, Warning, TEXT("%f"), EffectiveDebuffChance);
 			if (bDebuff)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("DDD"));
 				FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
 				
 				UAuraAbilitySystemLibrary::SetIsSuccessfulDebuff(ContextHandle, true);
