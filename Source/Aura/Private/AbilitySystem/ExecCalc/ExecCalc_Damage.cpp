@@ -84,9 +84,9 @@ void UExecCalc_Damage::DeterminedDebuff(
 		const float TypeDamege = Spec.GetSetByCallerMagnitude(DamageType, false, -1.f);
 		if (TypeDamege > -0.5f)
 		{
-			const float SourceDebuffChance = Spec.GetSetByCallerMagnitude(GameplayTags.Debuff_Chance, false, -1.f);
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *DamageType.ToString());
 			
-
+			const float SourceDebuffChance = Spec.GetSetByCallerMagnitude(GameplayTags.Debuff_Chance, false, -1.f);
 			
 			float TargetDebuffResistance = 0.f;
 			const FGameplayTag& ResistanceTag = GameplayTags.DamageTypesToResistances[DamageType];

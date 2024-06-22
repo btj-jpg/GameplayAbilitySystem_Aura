@@ -34,8 +34,8 @@ void UDebuffNiagaraComponent::BeginPlay()
 
 void UDebuffNiagaraComponent::DebuffTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
-	UE_LOG(LogTemp, Warning, TEXT("aaa"));
-	if (NewCount > 0)
+
+	if (NewCount > 0 && GetOwner() && GetOwner()->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsDead(GetOwner()))
 	{
 		Activate();
 	}
@@ -43,4 +43,5 @@ void UDebuffNiagaraComponent::DebuffTagChanged(const FGameplayTag CallbackTag, i
 	{
 		Deactivate();
 	}
+	
 }
