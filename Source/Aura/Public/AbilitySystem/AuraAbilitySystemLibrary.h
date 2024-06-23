@@ -88,6 +88,9 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static FVector GetDeathImpulse(const FGameplayEffectContextHandle& EffectContextHandle);
 
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static FVector GetKnockbackForce(const FGameplayEffectContextHandle& EffectContextHandle);
+
 	// UPARAM(ref) ブループリントで出るピンから入るピンに変更する
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit);
@@ -113,6 +116,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static void SetDeathImpulse(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& InImpulse);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static void SetKnockbackForce(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& InForce);
 	
 	/* AuragameplayEffectContext End */
 
