@@ -348,8 +348,51 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondAc
 	return !bFriends;
 }
 
+TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators)
+{
+	TArray<FRotator> Rotators;
+	const FVector LeftSpread = Forward.RotateAngleAxis(-Spread / 2.f, Axis);
+	if (NumRotators > 1)
+	{
+		const float DeltaSpread = Spread / (NumRotators - 1);
+		for (int32 i = 0; i < NumRotators; i ++)
+		{
+			const FVector Direction = LeftSpread.RotateAngleAxis(DeltaSpread * i, FVector::UpVector);
+			Rotators.Add(Direction.Rotation());
+			
+		}
+	}
+	else
+	{
+		Rotators.Add(Forward.Rotation());
+	}
+	return Rotators;
+}
+
+TArray<FVector> UAuraAbilitySystemLibrary::EvenlyRotateVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators)
+{
+	TArray<FVector> FVectors;
+	
+	const FVector LeftSpread = Forward.RotateAngleAxis(-Spread / 2.f, Axis);
+	if (NumRotators > 1)
+	{
+		const float DeltaSpread = Spread / (NumRotators - 1);
+		for (int32 i = 0; i < NumRotators; i ++)
+		{
+			const FVector Direction = LeftSpread.RotateAngleAxis(DeltaSpread * i, FVector::UpVector);
+			FVectors.Add(Direction);
+			
+		}
+	}
+	else
+	{
+		FVectors.Add(Forward);
+	}
+	return FVectors;
+}
+
 int32 UAuraAbilitySystemLibrary::GetXPReward_ForClassAndLevel(const UObject* WorldContextObject,
-	ECharacterClass CharacterClass, int32 Level)
+                                                              ECharacterClass CharacterClass, int32 Level)
 {
 	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
 	if (CharacterClassInfo == nullptr) return 0.f;

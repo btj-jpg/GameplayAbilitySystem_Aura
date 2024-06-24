@@ -130,6 +130,13 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|GameplayMechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor * SecondActor);
 
+	// 回転入手
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|GameplayMechanics")
+	static TArray<FRotator> EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators);
+
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|GameplayMechanics")
+	static TArray<FVector> EvenlyRotateVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators);
+
 	// XPの値をゲットする
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static int32 GetXPReward_ForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 Level);

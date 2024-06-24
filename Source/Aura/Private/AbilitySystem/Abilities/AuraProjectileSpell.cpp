@@ -6,7 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
-#include "Aura/Public/AuraGameplayTags.h"
+
 
 void UAuraProjectileSpell::ActivateAbility(
 	const FGameplayAbilitySpecHandle Handle,
@@ -21,7 +21,6 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 {
 	// サーバーで呼び出されてるか
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
-	
 	if (!bIsServer) return;
 
 	//GetAvatarActorFromActorInfo() BP_AuraCharacter
@@ -33,7 +32,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	{
 		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
-		Rotation.Pitch = 0.f;
+		//Rotation.Pitch = 0.f;
 		if (bOverridePitch) Rotation.Pitch = PitchOverride;
 		
 		FTransform SpawnTransform;
