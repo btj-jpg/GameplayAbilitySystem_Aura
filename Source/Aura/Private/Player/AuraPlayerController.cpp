@@ -145,6 +145,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		// 話した時点での時間を参照するためfalseにしておく
 		bAutoRunning = false;
 	}
+	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 	
 }
 
