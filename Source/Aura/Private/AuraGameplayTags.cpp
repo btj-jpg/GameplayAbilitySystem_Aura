@@ -425,6 +425,32 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FName("Montage.Attack.4"),
 			FString("Montage Tag 4")
 			);
+
+	// プレイヤーの入力ブロックタグ
+	GameplayTags.Player_Block_InputPressed =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Player.Block.InputPressed"),
+			FString("BLock InputPressed")
+			);
+
+	GameplayTags.Player_Block_InputHeld =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Player.Block.InputHeld"),
+			FString("BLock InputHeld")
+			);
+
+	GameplayTags.Player_Block_InputReleased =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Player.Block.InputReleased"),
+			FString("BLock InputReleased")
+			);
+
+	GameplayTags.Player_Block_CursorTrace =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Player.Block.CursorTrace"),
+			FString("BLock CursorTrace")
+			);
+
 	
 }
 
