@@ -126,6 +126,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|GameplayMechanics")
 	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActor, UPARAM(ref) TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereOrigin);
 
+	// ヒットリザルトから知回数券をゲットする
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|GameplayMechanics")
+	static void GetClosestTargets(int32 MaxTargets, const TArray<AActor*>& Actors, TArray<AActor*>& OutClosestTargets, const FVector& Origin);
+	
 	// 敵同士のフレインドリーファイアをなくす
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|GameplayMechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor * SecondActor);
