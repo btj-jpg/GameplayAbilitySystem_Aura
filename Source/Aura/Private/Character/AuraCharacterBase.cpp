@@ -51,6 +51,11 @@ void AAuraCharacterBase::Die(const FVector& DeathImpulse)
 	MulticastHandleDeath(DeathImpulse);
 }
 
+FOnDeathSignature& AAuraCharacterBase::GetOnDeathDelegate()
+{
+	return OnDeathDelegate;
+}
+
 bool AAuraCharacterBase::IsDead_Implementation() const
 {
 	return bDead;
@@ -81,6 +86,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 	Dissolve();
 	bDead = true;
 	BurnDebuffComponent->Deactivate();
+	OnDeathDelegate.Broadcast(this);
 }
 
 TArray<FTagMontage> AAuraCharacterBase::GetAttackMontage_Implementation()
@@ -129,11 +135,6 @@ ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
 FOnASCRegistered AAuraCharacterBase::GetOnASCRegisteredDelegate()
 {
 	return OnAscRegistered;
-}
-
-FOnDeath AAuraCharacterBase::GetOnDeathDelegate()
-{
-	return OnDeath;
 }
 
 USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
