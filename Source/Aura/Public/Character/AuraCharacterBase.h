@@ -38,6 +38,7 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	// combatInterface 
 	// interfaceから継承するときは　_Implementation　がつく
 	
@@ -65,7 +66,12 @@ public:
 	TArray<FTagMontage> AttackMontages;
 	
 	// combatInterface end
-	
+
+	// Replicated サーバー側で変更されたらクライアント側でも変更される
+	UPROPERTY(Replicated, BlueprintReadOnly)
+	bool bIsStunned = false;
+
+	virtual void StunTagChanged(const FGameplayTag CallbackTag,  int32 NewCount);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -118,6 +124,9 @@ protected:
 
 	// 自身の死亡判定
 	bool bDead = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	float BaseWalkSpeed = 600.f;
 	
 	/* ディゾルブエフェクト　*/
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
