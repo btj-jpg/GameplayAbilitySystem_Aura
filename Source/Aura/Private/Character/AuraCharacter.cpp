@@ -159,6 +159,34 @@ int32 AAuraCharacter::GetPlayerLevel_Implementation()
 	return AuraPlayerState->GetPlayerLevel();
 }
 
+
+void AAuraCharacter::OnRep_Stunned()
+{
+	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		
+		const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+		FGameplayTagContainer TagContainer;
+		TagContainer.AddTag(GameplayTags.Player_Block_CursorTrace);
+		TagContainer.AddTag(GameplayTags.Player_Block_InputHeld);
+		TagContainer.AddTag(GameplayTags.Player_Block_InputPressed);
+		TagContainer.AddTag(GameplayTags.Player_Block_InputReleased);
+
+		if (bIsStunned)
+		{
+			AuraASC->AddLooseGameplayTags(TagContainer);
+		}
+		else
+		{
+			AuraASC->RemoveLooseGameplayTags(TagContainer);
+		}
+		
+	}
+
+	
+}
+
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	//GetPlayerState -- ポーンがプレイヤーに所有されている場合は、そのプレイヤーの状態を返します。

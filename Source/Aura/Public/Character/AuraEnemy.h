@@ -29,6 +29,7 @@ public:
 	
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
+	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
 
 	// 攻撃アニメーションの時などにコンバットターゲットを指定するために使う
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;

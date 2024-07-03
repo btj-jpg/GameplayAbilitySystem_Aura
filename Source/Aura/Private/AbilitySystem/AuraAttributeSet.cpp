@@ -13,6 +13,7 @@
 #include "Interaction/CombatInterface.h"
 #include "GameplayTagContainer.h"
 #include "Interaction/PlayerInterface.h"
+#include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
 #include "Player/AuraPlayerController.h"
 
 // タグ設定
@@ -239,13 +240,30 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	FString DebuffName = FString::Printf(TEXT("DynamicDebuff_%s"), *DamageType.ToString());
 
 	//一時的なパッケージは、例えば一時的なインスタンスの生成や編集中に使用されることがあります。
+	// 実際に適応するエフェクトを作成
 	UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(DebuffName));
 
 	// 一定期間持続
 	Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
 	Effect->Period = FebuffFrequency;
 	Effect->DurationMagnitude = FScalableFloat(FebuffDuration);
-
+	
+	const FGameplayTag DebuffTag = GameplayTags.DamageTypesToDebuffs[DamageType];
+	
+	// InheritableOwnedTagsContainerはもう使えない
+	
+	FInheritedTagContainer TagContainer = FInheritedTagContainer();
+	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
+	TagContainer.Added.AddTag(DebuffTag);
+	if (DebuffTag.MatchesTagExact(GameplayTags.Debuff_Stun))
+	{
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_CursorTrace);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputPressed);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputHeld);
+		TagContainer.Added.AddTag(GameplayTags.Player_Block_InputReleased);
+	}
+	Component.SetAndApplyTargetTagChanges(TagContainer);
+	
 	//Effect->InheritableOwnedTagsContainer.AddTag();
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;
@@ -259,6 +277,7 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	// ダメージをどのように適応するか
 	ModifierInfo.ModifierOp = EGameplayModOp::Additive;
 	ModifierInfo.Attribute = UAuraAttributeSet::GetIncomingDamageAttribute();
+	
 
 	FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f);
 	if (MutableSpec)

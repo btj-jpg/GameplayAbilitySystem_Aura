@@ -68,10 +68,14 @@ public:
 	// combatInterface end
 
 	// Replicated サーバー側で変更されたらクライアント側でも変更される
-	UPROPERTY(Replicated, BlueprintReadOnly)
+	UPROPERTY(ReplicatedUsing=OnRep_Stunned, BlueprintReadOnly)
 	bool bIsStunned = false;
 
+	UFUNCTION()
+	virtual void OnRep_Stunned();
+
 	virtual void StunTagChanged(const FGameplayTag CallbackTag,  int32 NewCount);
+
 	
 protected:
 	virtual void BeginPlay() override;
