@@ -11,6 +11,7 @@
 #include "AuraAbilitySystemLibrary.generated.h"
 
 
+class UDebuffInfo;
 class AAuraHUD;
 struct FWidgetControllerParams;
 class UAttributeMenuWidgetController;
@@ -59,6 +60,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static UDebuffInfo* GetDebuffInfo(const UObject* WorldContextObject);
 	
 	/* AuragameplayEffectContext */
 	

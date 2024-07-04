@@ -44,11 +44,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Niagara")
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
-
+	
 	virtual void OnRep_Stunned() override;
-
-	UPROPERTY(EditDefaultsOnly, Category = "GameplayEffects")
-	TSubclassOf<UGameplayEffect> TagApplyingEffect;
 	
 private:
 

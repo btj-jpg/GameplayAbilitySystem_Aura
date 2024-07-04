@@ -8,6 +8,7 @@
 
 class UAbilityInfo;
 class UCharacterClassInfo;
+class UDebuffInfo;
 /**
  * 
  */
@@ -24,5 +25,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="Character Class Default")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
-	
+
+	UPROPERTY(EditAnywhere, Category="Character Class Default")
+	TObjectPtr<UDebuffInfo> DebuffInfo;
 };
