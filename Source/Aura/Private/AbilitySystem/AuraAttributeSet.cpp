@@ -246,16 +246,36 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 
 	
 	/*エラーなくデバフを適応する方法！
-	 *FGameplayEffectContextHandle ContextHandle = Props.TargetASC->MakeEffectContext();
-	FGameplayEffectSpecHandle SpecHandle = Props.TargetASC->MakeOutgoingSpec(
-	UAuraAbilitySystemLibrary::GetDebuffInfo(Props.SourceAvatarActor)->FindDebuffEffectForTag(DebuffTag).DebuffEffect,
-	1.f,
-	ContextHandle
+	 **/
+	FGameplayEffectContextHandle ContextHandle = Props.TargetASC->MakeEffectContext();
+
+	FDebuffInfomation DebuffInfomation = UAuraAbilitySystemLibrary::GetDebuffInfo(Props.SourceAvatarActor)->FindDebuffEffectForTag(DebuffTag);
+	if (IsValid(DebuffInfomation.DebuffEffect))
+	{
+		FGameplayEffectSpecHandle SpecHandle = Props.TargetASC->MakeOutgoingSpec(
+		DebuffInfomation.DebuffEffect,
+		1.f,
+		ContextHandle
 		);
+		
+		SpecHandle.Data->SetDuration(FebuffDuration, true);
+		SpecHandle.Data->Period = FebuffFrequency;
+		
+		FGameplayTagContainer TagContainer = FGameplayTagContainer();
+		TagContainer.AddTag(DebuffTag);
+		if (DebuffTag.MatchesTagExact(GameplayTags.Debuff_Stun))
+		{
+			TagContainer.AddTag(GameplayTags.Player_Block_CursorTrace);
+			TagContainer.AddTag(GameplayTags.Player_Block_InputPressed);
+			TagContainer.AddTag(GameplayTags.Player_Block_InputHeld);
+			TagContainer.AddTag(GameplayTags.Player_Block_InputReleased);
+		}
+		SpecHandle.Data->DynamicGrantedTags = TagContainer;
 	
-	SpecHandle.Data->SetDuration(2, true);
-	Props.TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-	*/
+		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+	}
+	
+	
 
 	
 	
@@ -306,7 +326,7 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		TSharedPtr<FGameplayTag> DebuffDamageType = MakeShareable(new FGameplayTag(DamageType));
 		AuraContext->SetDamageType(DebuffDamageType);
 		
-		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
+		//Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
 		
 	}
 	
