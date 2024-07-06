@@ -172,6 +172,27 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FString("Lightning Damage Type")
 			);
 
+
+	// パッシブスキルタグ
+	GameplayTags.Abilities_Passive_HaloOfProtection =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Passive.HaloOfProtection"),
+			FString("Passive HaloOFProtection")
+			);
+
+	GameplayTags.Abilities_Passive_LifeSiphon =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Passive.LifeSiphon"),
+			FString("Passive LifeSiphon")
+			);
+
+	GameplayTags.Abilities_Passive_ManaSiphon =
+		UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Passive.ManaSiphon"),
+			FString("Passive ManaSiphon")
+			);
+	
+
 	GameplayTags.Damage_Arcane =
 		UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Damage.Arcane"),

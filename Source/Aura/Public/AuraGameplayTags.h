@@ -88,6 +88,12 @@ public:
  
   FGameplayTag Abilities_Fire_FireBolt;
   FGameplayTag Abilities_Lightning_Electrocute;
+
+  // パッシブスキルタグ
+  FGameplayTag Abilities_Passive_HaloOfProtection;
+  FGameplayTag Abilities_Passive_LifeSiphon;
+  FGameplayTag Abilities_Passive_ManaSiphon;	
+	
   //cooldown 
   FGameplayTag CoolDown_Fire_FireBolt;
 
