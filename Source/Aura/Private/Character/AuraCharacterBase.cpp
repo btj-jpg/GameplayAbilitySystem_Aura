@@ -51,7 +51,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	
 	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
 	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
-	
+	DOREPLIFETIME(AAuraCharacterBase, bIsBeginShocked);
 }
 
 // Implementation RPCであることを示す
@@ -157,6 +157,16 @@ FOnASCRegistered& AAuraCharacterBase::GetOnASCRegisteredDelegate()
 USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
 {
 	return Weapon;
+}
+
+void AAuraCharacterBase::SetIsBeginShocked_Implementation(bool bInShock)
+{
+	bIsBeginShocked = bInShock;
+}
+
+bool AAuraCharacterBase::IsBeginShocked_Implementation() const
+{
+	return bIsBeginShocked;
 }
 
 void AAuraCharacterBase::OnRep_Stunned()
