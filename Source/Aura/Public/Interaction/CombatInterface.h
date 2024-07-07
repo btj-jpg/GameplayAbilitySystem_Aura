@@ -15,6 +15,11 @@ class UAbilitySystemComponent;
 class UAnimMontage;
 class UNiagaraSystem;
 
+// ダイナミックとそれ以外の違い
+/* ダイナミックバージョンはブループリントから関数の追加やブロードキャストが可能
+ *　通常版は不可能ただし動作が軽い
+ */
+
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeathSignature, AActor*, DeadActor);

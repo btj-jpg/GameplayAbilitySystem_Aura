@@ -12,6 +12,7 @@ DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& /* AbilityTag */, const FGameplayTag& /* Status */, const FGameplayTag& /* Slot */, const FGameplayTag& /* PrevSlot */);
 DECLARE_MULTICAST_DELEGATE_OneParam(FDeactivatePassiveAbility, const FGameplayTag& /* Passive AbilityTag */);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FActivatePassiveEffect, const FGameplayTag& /* AbilityTag */, bool /* bActivate */)
 
 /**
  * 
@@ -28,6 +29,7 @@ public:
 	FAbilityStatusChanged AbilityStatusChanged;
 	FAbilityEquipped AbilityEquipped;
 	FDeactivatePassiveAbility DeactivatePassiveAbility;
+	FActivatePassiveEffect ActivatePassiveEffect;
 	
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
 	void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities);
@@ -50,6 +52,11 @@ public:
 	FGameplayAbilitySpec* GetSpecWithSlot(const FGameplayTag& Slot);
 	bool IsPassiveAbility(const FGameplayAbilitySpec& Spec) const;
 	static void AssignSlotToAbility(FGameplayAbilitySpec& Spec, const FGameplayTag& Slot);
+
+	// NetMulticast サーバー上でのみ呼び出し可能、すべてのクライアントにも呼び出される
+	//Unreliable 可能なら送信する、失敗する場合もある、失敗しても問題ない関数で使うエフェクトとか
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastActivePassiveEffect(const FGameplayTag& AbilityTag, bool bActivate);
 	
 	FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
 

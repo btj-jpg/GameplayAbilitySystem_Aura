@@ -8,6 +8,7 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UPassiveNiagaraComponent;
 class UDebuffNiagaraComponent;
 class UNiagaraSystem;
 class UGameplayAbility;
@@ -23,6 +24,8 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 
 public:
 	AAuraCharacterBase();
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	/*
 	 *IAbilitySystemInterfaceから継承
@@ -190,6 +193,17 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
 
+	UPROPERTY(VisibleAnywhere, Category="Passive")
+	TObjectPtr<UPassiveNiagaraComponent> HaloOfProtectionNiagaraComponent;
+
+	UPROPERTY(VisibleAnywhere, Category="Passive")
+	TObjectPtr<UPassiveNiagaraComponent> LifeSiphonNiagaraComponent;
+
+	UPROPERTY(VisibleAnywhere, Category="Passive")
+	TObjectPtr<UPassiveNiagaraComponent> ManaSiphonNiagaraComponent;
+
+	UPROPERTY(VisibleAnywhere, Category="Passive")
+	TObjectPtr<USceneComponent> EffectAttachComponent;
 };
 
 

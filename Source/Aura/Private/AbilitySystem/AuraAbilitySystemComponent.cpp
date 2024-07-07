@@ -222,6 +222,12 @@ void UAuraAbilitySystemComponent::AssignSlotToAbility(FGameplayAbilitySpec& Spec
 	Spec.DynamicAbilityTags.AddTag(Slot);
 }
 
+void UAuraAbilitySystemComponent::MulticastActivePassiveEffect_Implementation(const FGameplayTag& AbilityTag,
+	bool bActivate)
+{
+	ActivatePassiveEffect.Broadcast(AbilityTag, bActivate);
+}
+
 
 void UAuraAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeTag)
 {
@@ -349,6 +355,8 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 
 					if (IsPassiveAbility(*SpecWithSlot))
 					{
+						MulticastActivePassiveEffect(GetAbilityTagFromSpec(*SpecWithSlot), false);
+						
 						// パッシブアビリティをデアクティベートする
 						DeactivatePassiveAbility.Broadcast(GetAbilityTagFromSpec(*SpecWithSlot));
 					}
@@ -363,6 +371,7 @@ void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGamep
 				if (IsPassiveAbility(*AbilitySpec))
 				{
 					TryActivateAbility(AbilitySpec->Handle);
+					MulticastActivePassiveEffect(AbilityTag, true);
 				}
 			}
 			AssignSlotToAbility(*AbilitySpec, Slot);
