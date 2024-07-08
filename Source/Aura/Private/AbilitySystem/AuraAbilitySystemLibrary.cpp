@@ -320,7 +320,7 @@ void UAuraAbilitySystemLibrary::SetKnockbackForce(FGameplayEffectContextHandle& 
 void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(
 	const UObject* WorldContextObject,
 	TArray<AActor*>& OutOverlappingActor,
-	TArray<AActor*>& ActorToIgnore,
+	const TArray<AActor*>& ActorToIgnore,
 	float Radius,
 	const FVector& SphereOrigin)
 {

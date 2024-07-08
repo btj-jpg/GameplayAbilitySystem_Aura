@@ -11,6 +11,8 @@
 #include "NavigationSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraSystem.h"
+#include "Actor/MagicCircle.h"
+#include "Components/DecalComponent.h"
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
@@ -73,6 +75,27 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
 	AutoRun();
+	UpDateMagicCircle();
+}
+
+void AAuraPlayerController::ShowMagicCircle(UMaterialInterface* Material)
+{
+	if (!IsValid(MagicCircle))
+	{
+		MagicCircle = GetWorld()->SpawnActor<AMagicCircle>(MagicCircleClass);
+		if (Material)
+		{
+			MagicCircle->MagicCircleDecal->SetMaterial(0, Material);
+		}
+	}
+}
+
+void AAuraPlayerController::HideMagicCircle()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->Destroy();
+	}
 }
 
 // ダメージテキストを表示する
@@ -115,6 +138,14 @@ void AAuraPlayerController::AutoRun()
 			bAutoRunning = false;
 		}
 		
+	}
+}
+
+void AAuraPlayerController::UpDateMagicCircle()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
 	}
 }
 

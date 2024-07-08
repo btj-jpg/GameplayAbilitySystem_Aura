@@ -127,7 +127,7 @@ public:
 
 	// 攻撃のあたり判定内にいるプレイヤーを見つける
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|GameplayMechanics")
-	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActor, UPARAM(ref) TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereOrigin);
+	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActor, const TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereOrigin);
 
 	// ヒットリザルトから知回数券をゲットする
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|GameplayMechanics")
