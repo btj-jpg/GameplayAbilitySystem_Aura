@@ -59,7 +59,7 @@ APointCollection::APointCollection()
 TArray<USceneComponent*> APointCollection::GetGroundPoint(const FVector& GrandLocation, int32 NumPoints,
 	float YawOverride)
 {
-	checkf(ImmutablePts.Num() >= NumPoints, TEXT("取得するポイントが多すぎます(最大10)"));
+	checkf(ImmutablePts.Num() >= NumPoints, TEXT("取得するポイントが多すぎます(最大11)"));
 
 	TArray<USceneComponent*> ArrayCopy;
 	for (USceneComponent* Pt : ImmutablePts)
