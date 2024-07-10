@@ -8,6 +8,7 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+
 class UPassiveNiagaraComponent;
 class UDebuffNiagaraComponent;
 class UNiagaraSystem;
@@ -34,6 +35,9 @@ public:
 	 *virtual UAbilitySystemComponent* GetAbilitySystemComponent() const = 0;
 	*/
 
+	// エンジンにもとからある関数
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
 
@@ -61,10 +65,12 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual void SetIsBeginShocked_Implementation(bool bInShock) override;
 	virtual bool IsBeginShocked_Implementation() const override;
+	virtual FOnDamageSignature& GetOnDamageDelegate() override;
 	
 	FOnASCRegistered OnAscRegistered;
 	FOnDeath OnDeath;
 	FOnDeathSignature OnDeathDelegate;
+	FOnDamageSignature OnDamageDelegate;
 	
 	// 攻撃モンタージュのアレイ
 	UPROPERTY(EditAnywhere, Category="combat")

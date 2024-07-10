@@ -59,6 +59,14 @@ void AAuraCharacterBase::Tick(float DeltaSeconds)
 	EffectAttachComponent->SetWorldRotation(FRotator::ZeroRotator);
 }
 
+float AAuraCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+    const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	OnDamageDelegate.Broadcast(DamageTaken);
+	return DamageTaken;
+}
+
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -186,6 +194,11 @@ void AAuraCharacterBase::SetIsBeginShocked_Implementation(bool bInShock)
 bool AAuraCharacterBase::IsBeginShocked_Implementation() const
 {
 	return bIsBeginShocked;
+}
+
+FOnDamageSignature& AAuraCharacterBase::GetOnDamageDelegate()
+{
+	return OnDamageDelegate;
 }
 
 void AAuraCharacterBase::OnRep_Stunned()

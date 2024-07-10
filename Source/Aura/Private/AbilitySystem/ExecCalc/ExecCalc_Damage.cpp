@@ -10,6 +10,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 struct AuraDamageStatics
 {
@@ -155,6 +156,7 @@ void UExecCalc_Damage::Execute_Implementation(
 	}
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 
 	// タグを追加できるパラメーター
 	FAggregatorEvaluateParameters EvaluateParameters;
@@ -166,6 +168,7 @@ void UExecCalc_Damage::Execute_Implementation(
 	DeterminedDebuff(ExecutionParams, Spec, EvaluateParameters, TagsToCaptureDefs);
 	
 	// TTuple 複数の型を指定する時に使える
+	// 属性に応じたダメージを与える
 	float Damage = 0.f;
 	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FAuraGameplayTags::Get().DamageTypesToResistances)
 	{
@@ -187,10 +190,38 @@ void UExecCalc_Damage::Execute_Implementation(
 		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
 
 		DamageTypeValue *= (100.f - Resistance) / 100.f;
+
+		// 放射状ダメージの適応
+		if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetAvatar))
+			{
+				CombatInterface->GetOnDamageDelegate().AddLambda(
+					[&](float DamageAmount)
+				{
+					DamageTypeValue = DamageAmount;
+				});
+			}
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetAvatar,
+				DamageTypeValue,
+				0.f,
+				UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle),
+				1.f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceAvatar,
+				nullptr
+				);
+		}
 	
 		Damage += DamageTypeValue;
 	
 	}
+
+	
 
 	// クリティカルヒット計算
 
@@ -218,7 +249,7 @@ void UExecCalc_Damage::Execute_Implementation(
 
 		bCritical = true;
 	}
-	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	
 	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCritical);
 	
 	// ターゲットがダメージブロックしたか

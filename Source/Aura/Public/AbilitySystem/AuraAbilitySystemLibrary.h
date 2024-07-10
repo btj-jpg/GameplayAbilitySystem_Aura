@@ -26,6 +26,10 @@ class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 
 public:
 
+	//
+		//WIdget Controller
+	//
+
 	// AuraHUDのポインターを参照渡しする
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static bool MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD);
@@ -41,6 +45,12 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static  USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
+
+	//
+		// アビリティシステムの初期化
+	//
+
+	
 	// 敵の初期ステータス設定　敵の種類によってステータスを変更できる
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAttributes(
@@ -62,6 +72,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static UDebuffInfo* GetDebuffInfo(const UObject* WorldContextObject);
+
+	
+	//
+		// エフェクトコンテキストからゲット
+	//
+
 	
 	/* AuragameplayEffectContext */
 	
@@ -94,6 +110,23 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static FVector GetKnockbackForce(const FGameplayEffectContextHandle& EffectContextHandle);
 
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static bool IsRadialDamage(const FGameplayEffectContextHandle& EffectContextHandle);
+
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static float GetRadialDamageInnerRadius(const FGameplayEffectContextHandle& EffectContextHandle);
+
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static float GetRadialDamageOuterRadius(const FGameplayEffectContextHandle& EffectContextHandle);
+
+	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static FVector GetRadialDamageOrigin(const FGameplayEffectContextHandle& EffectContextHandle);
+
+	//
+		// エフェクトコンテキストにセット
+	//
+
+	
 	// UPARAM(ref) ブループリントで出るピンから入るピンに変更する
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit);
@@ -122,9 +155,25 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
 	static void SetKnockbackForce(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& InForce);
-	
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static void SetIsRadiaolDamage(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsRadiaolDamage);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static void SetRadialDamageInnerradius(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InInnerradius);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static void SetRadialDamageOuterradius(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InOuterradius);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static void SetRadialDamageOrigin(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& InOrigin);
 	/* AuragameplayEffectContext End */
 
+
+	//
+	// ゲームプレイのためのメカニクス
+	//
+	
 	// 攻撃のあたり判定内にいるプレイヤーを見つける
 	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|GameplayMechanics")
 	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActor, const TArray<AActor*>& ActorToIgnore, float Radius, const FVector& SphereOrigin);
