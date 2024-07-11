@@ -190,7 +190,8 @@ void UExecCalc_Damage::Execute_Implementation(
 		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
 
 		DamageTypeValue *= (100.f - Resistance) / 100.f;
-
+		if (DamageTypeValue <= 0.f) continue;
+		
 		// 放射状ダメージの適応
 		if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
 		{

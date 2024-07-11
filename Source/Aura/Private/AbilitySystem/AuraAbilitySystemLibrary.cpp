@@ -376,7 +376,7 @@ void UAuraAbilitySystemLibrary::SetRadialDamageOuterradius(FGameplayEffectContex
 {
 	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
-		AuraEffectContext->SetRadialDamageInnerRadius(InOuterradius);
+		AuraEffectContext->SetRadialDamageOuterRadius(InOuterradius);
 	}
 }
 
