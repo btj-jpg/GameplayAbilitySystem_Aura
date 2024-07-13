@@ -251,7 +251,6 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 
 	
 	/*エラーなくデバフを適応する方法！
-	 **/
 	FGameplayEffectContextHandle ContextHandle = Props.TargetASC->MakeEffectContext();
 
 	FDebuffInfomation DebuffInfomation = UAuraAbilitySystemLibrary::GetDebuffInfo(Props.SourceAvatarActor)->FindDebuffEffectForTag(DebuffTag);
@@ -276,10 +275,14 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 			TagContainer.AddTag(GameplayTags.Player_Block_InputReleased);
 		}
 		SpecHandle.Data->DynamicGrantedTags = TagContainer;
+
+		FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(SpecHandle->GetContext().Get());
+		TSharedPtr<FGameplayTag> DebuffDamageType = MakeShareable(new FGameplayTag(DamageType));
+		AuraContext->SetDamageType(DebuffDamageType);
 	
 		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 	}
-	
+	*/
 	
 
 	
@@ -331,7 +334,7 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 		TSharedPtr<FGameplayTag> DebuffDamageType = MakeShareable(new FGameplayTag(DamageType));
 		AuraContext->SetDamageType(DebuffDamageType);
 		
-		//Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
+		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
 		
 	}
 	
@@ -414,6 +417,7 @@ void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
 {
+	
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(Props.SourceCharacter->Controller))
